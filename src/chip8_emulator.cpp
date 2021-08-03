@@ -20,8 +20,9 @@ void Chip8Emulator::Init()
 	cpu_->Init();
 }
 
-void Chip8Emulator::Update()
+void Chip8Emulator::Update(double deltaTime)
 {
+	cpu_->Update(deltaTime);
 }
 
 void Chip8Emulator::Load(const std::vector<unsigned char>& buffer)

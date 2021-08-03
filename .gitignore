@@ -1,4 +1,5 @@
 build/
 ctags
-*.swo
-*.swp
+.*.swp
+.*.swo
+

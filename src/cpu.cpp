@@ -14,6 +14,8 @@ void CPU::Init()
     i_ = 0;
     sp_ = 0;
 
+	update_counter_ = UPDATE_FREQUENCY;
+
     std::memset(v_, 0, sizeof(v_));
     std::memset(stack_, 0, sizeof(stack_));
     std::memset(memory_, 0, sizeof(memory_));
@@ -23,9 +25,26 @@ void CPU::Init()
     }
 }
 
-void CPU::NextCycle()
+void CPU::EmulateCycles(int numCycles)
 {
 
+}
+
+void CPU::Update(double deltaTime)
+{
+	update_counter_ -= deltaTime;	
+	
+	if(update_counter_ <= 0.0) {
+		update_counter_ = UPDATE_FREQUENCY;
+			
+		UpdateTimers();
+	}
+}
+
+void CPU::UpdateTimers()
+{
+	delay_timer_ = std::max(0, delay_timer_ - 1);
+	sound_timer_ = std::max(0, sound_timer_ - 1);
 }
 
 void CPU::Load(const std::vector<unsigned char>& buffer)

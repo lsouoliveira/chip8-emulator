@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <cmath>
 
 #include <constants.h>
 #include <video.h>
@@ -22,12 +23,15 @@ private:
     unsigned short stack_[STACK_SIZE];
     unsigned short sp_;
     unsigned char key_[NUM_KEYS];
+	double update_counter_;
 
     Video* video_;
 public:
     CPU(Video* video);
     void Init();
-    void NextCycle();
+    void EmulateCycles(int numCycles);
+	void Update(double deltaTime);
+	void UpdateTimers();
 	void Load(const std::vector<unsigned char>& buffer);
 };
 

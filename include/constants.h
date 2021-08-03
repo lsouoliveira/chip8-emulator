@@ -9,6 +9,8 @@ const static int STACK_SIZE = 16;
 const static int NUM_KEYS = 16;
 const static int STARTING_MEMORY_ADDR = 0x200;
 const static int VIDEO_BUFFER_SIZE = 64 * 32;
+const static double UPDATE_FREQUENCY = 1000.0 / 60.0;
+const static int CPU_FREQUENCY = 500;
 
 const static unsigned char chip8_fontset[80] =
 { 

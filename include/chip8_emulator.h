@@ -16,7 +16,7 @@ public:
     Chip8Emulator();
     ~Chip8Emulator();
     void Init();
-    void Update();
+    void Update(double deltaTime);
 	void Load(const std::vector<unsigned char>& buffer);
 };
 
