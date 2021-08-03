@@ -11,6 +11,8 @@ const static int STARTING_MEMORY_ADDR = 0x200;
 const static int VIDEO_BUFFER_SIZE = 64 * 32;
 const static double UPDATE_FREQUENCY = 1000.0 / 60.0;
 const static int CPU_FREQUENCY = 500;
+const static int CYCLES_PER_UPDATE = CPU_FREQUENCY / UPDATE_FREQUENCY;
+const static int MAX_INSTRUCTIONS = 65536;
 
 const static unsigned char chip8_fontset[80] =
 { 
@@ -32,6 +34,8 @@ const static unsigned char chip8_fontset[80] =
   0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
+enum Instruction {
+};
 }
 
 #endif /* CONSTANTS_H */

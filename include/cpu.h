@@ -5,6 +5,9 @@
 #include <vector>
 #include <cstring>
 #include <cmath>
+#include <functional>
+
+#include <spdlog/spdlog.h>
 
 #include <constants.h>
 #include <video.h>
@@ -24,8 +27,12 @@ private:
     unsigned short sp_;
     unsigned char key_[NUM_KEYS];
 	double update_counter_;
+	std::function<void(void)> opcodeMap[MAX_INSTRUCTIONS];
 
     Video* video_;
+	
+	void FetchOpcode();
+	void EmulateInstruction();
 public:
     CPU(Video* video);
     void Init();

@@ -11,7 +11,7 @@ file(GLOB_RECURSE HEADER_FILES
 
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 
-set(LIBS)
+set(LIBS -lfmt)
 
 include_directories(
 	"${CMAKE_SOURCE_DIR}/src"

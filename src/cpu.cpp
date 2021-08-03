@@ -25,9 +25,29 @@ void CPU::Init()
     }
 }
 
+void CPU::FetchOpcode()
+{
+	opcode_ = memory_[pc_] << 8 | memory_[pc_ + 1];
+	pc_ += 2;
+}
+
+void CPU::EmulateInstruction()
+{
+	std::function<void(void)> instructionFunction;
+	
+	if(instructionFunction) {
+		opcodeMap[opcode_]();	
+	} else if(opcode_ != 0){
+		spdlog::warn("Instruction not found \"{0:x}\"", opcode_);	
+	}
+}
+
 void CPU::EmulateCycles(int numCycles)
 {
-
+	while(numCycles--) {
+		FetchOpcode();
+		EmulateInstruction();
+	}
 }
 
 void CPU::Update(double deltaTime)
@@ -36,7 +56,8 @@ void CPU::Update(double deltaTime)
 	
 	if(update_counter_ <= 0.0) {
 		update_counter_ = UPDATE_FREQUENCY;
-			
+		
+		EmulateCycles(CYCLES_PER_UPDATE);
 		UpdateTimers();
 	}
 }
