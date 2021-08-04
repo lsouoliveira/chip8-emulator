@@ -5,40 +5,51 @@ namespace Chip8 {
 CPU::CPU(Video* video)
 	: video_(video)
 {
+	instruction_map_ = new InstructionMap(std::vector<unsigned short>{0xFFFF, 0xF0FF, 0xF00F, 0xF000});
+	instruction_map_->Add(0x00E0, new ClearScreenInstruction());
+}
+
+CPU::~CPU()
+{
+	delete instruction_map_;
 }
 
 void CPU::Init()
 {
-    pc_ = STARTING_MEMORY_ADDR;
-    opcode_ = 0;
-    i_ = 0;
-    sp_ = 0;
+    state_.pc = STARTING_MEMORY_ADDR;
+    state_.opcode = 0;
+    state_.i = 0;
+    state_.sp = 0;
 
-	update_counter_ = UPDATE_FREQUENCY;
+	state_.updateCounter = UPDATE_FREQUENCY;
 
-    std::memset(v_, 0, sizeof(v_));
-    std::memset(stack_, 0, sizeof(stack_));
-    std::memset(memory_, 0, sizeof(memory_));
+    std::memset(state_.v, 0, sizeof(state_.v));
+    std::memset(state_.stack, 0, sizeof(state_.stack));
+    std::memset(state_.memory, 0, sizeof(state_.memory));
 
     for(int i = 0; i < 80; i++) {
-        memory_[i] = chip8_fontset[i];
+        state_.memory[i] = chip8_fontset[i];
     }
 }
 
 void CPU::FetchOpcode()
 {
-	opcode_ = memory_[pc_] << 8 | memory_[pc_ + 1];
-	pc_ += 2;
+	state_.opcode = state_.memory[state_.pc] << 8 | state_.memory[state_.pc + 1];
+	state_.pc += 2;
+
+	if(state_.pc >= MEMORY_SIZE) {
+		state_.pc = MEMORY_SIZE - 1;
+	}
 }
 
 void CPU::EmulateInstruction()
 {
-	std::function<void(void)> instructionFunction;
-	
-	if(instructionFunction) {
-		opcodeMap[opcode_]();	
-	} else if(opcode_ != 0){
-		spdlog::warn("Instruction not found \"{0:x}\"", opcode_);	
+	Instruction* instruction = instruction_map_->Get(state_.opcode);
+	if(instruction != nullptr) {
+		instruction->Process(&state_);
+		spdlog::info("Instruction found \"{0:x}\"", state_.opcode);
+	} else if(state_.opcode != 0) {
+		//spdlog::warn("Instruction not found \"{0:x}\"", state_.opcode);	
 	}
 }
 
@@ -52,10 +63,10 @@ void CPU::EmulateCycles(int numCycles)
 
 void CPU::Update(double deltaTime)
 {
-	update_counter_ -= deltaTime;	
+	state_.updateCounter -= deltaTime;	
 	
-	if(update_counter_ <= 0.0) {
-		update_counter_ = UPDATE_FREQUENCY;
+	if(state_.updateCounter <= 0.0) {
+		state_.updateCounter = UPDATE_FREQUENCY;
 		
 		EmulateCycles(CYCLES_PER_UPDATE);
 		UpdateTimers();
@@ -64,14 +75,14 @@ void CPU::Update(double deltaTime)
 
 void CPU::UpdateTimers()
 {
-	delay_timer_ = std::max(0, delay_timer_ - 1);
-	sound_timer_ = std::max(0, sound_timer_ - 1);
+	state_.delayTimer = std::max(0, state_.delayTimer - 1);
+	state_.soundTimer = std::max(0, state_.soundTimer - 1);
 }
 
 void CPU::Load(const std::vector<unsigned char>& buffer)
 {
     for(size_t i = 0; i < buffer.size(); i++) {
-        memory_[STARTING_MEMORY_ADDR + i] = buffer[i];
+        state_.memory[STARTING_MEMORY_ADDR + i] = buffer[i];
     }
 }
 

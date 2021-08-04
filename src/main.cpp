@@ -21,6 +21,7 @@ int main() {
 	std::vector<unsigned char> romData = ReadData("roms/Pong (1 player).ch8");
 	
 	Chip8Emulator* chip8Emulator = new Chip8Emulator();
+	chip8Emulator->Init();
 	chip8Emulator->Load(romData);
 	
 	double lastTimestamp = getTime();

@@ -34,8 +34,6 @@ const static unsigned char chip8_fontset[80] =
   0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-enum Instruction {
-};
 }
 
 #endif /* CONSTANTS_H */

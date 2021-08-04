@@ -6,35 +6,45 @@
 #include <cstring>
 #include <cmath>
 #include <functional>
+#include <unordered_map>
 
 #include <spdlog/spdlog.h>
 
 #include <constants.h>
 #include <video.h>
 
+#include <instructions/instruction_map.h>
+#include <instructions/clear_screen_instruction.h>
+
+class Instruction;
+
 namespace Chip8 {
+
+struct CPUState {
+    unsigned short opcode;
+    unsigned char memory[MEMORY_SIZE];
+    unsigned char v[NUM_REGISTERS];
+    unsigned short i;
+    unsigned short pc;
+    unsigned char delayTimer;
+    unsigned char soundTimer;
+    unsigned short stack[STACK_SIZE];
+    unsigned short sp;
+    unsigned char key[NUM_KEYS];
+	double updateCounter;
+};
 
 class CPU {
 private:
-    unsigned short opcode_;
-    unsigned char memory_[MEMORY_SIZE];
-    unsigned char v_[NUM_REGISTERS];
-    unsigned short i_;
-    unsigned short pc_;
-    unsigned char delay_timer_;
-    unsigned char sound_timer_;
-    unsigned short stack_[STACK_SIZE];
-    unsigned short sp_;
-    unsigned char key_[NUM_KEYS];
-	double update_counter_;
-	std::function<void(void)> opcodeMap[MAX_INSTRUCTIONS];
-
+	CPUState state_;
     Video* video_;
+	InstructionMap* instruction_map_;
 	
 	void FetchOpcode();
 	void EmulateInstruction();
 public:
     CPU(Video* video);
+	~CPU();
     void Init();
     void EmulateCycles(int numCycles);
 	void Update(double deltaTime);
