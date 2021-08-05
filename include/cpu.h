@@ -15,6 +15,8 @@
 #include <cpu_state.h>
 #include <instructions/instruction_map.h>
 #include <instructions/clear_screen_instruction.h>
+#include <instructions/move_constant_instruction.h>
+#include <instructions/load_index_register.h>
 
 class Instruction;
 

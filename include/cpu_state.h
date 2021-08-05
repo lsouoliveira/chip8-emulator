@@ -1,6 +1,8 @@
 #ifndef CPU_STATE_H
 #define CPU_STATE_H
 
+#include <iostream>
+
 #include <constants.h>
 #include <video.h>
 
@@ -20,6 +22,19 @@ struct CPUState {
     unsigned char key[NUM_KEYS];
 	double updateCounter;
 	Video* video;
+
+	std::string ToString()
+	{
+		std::string result = "";
+
+		for (int i = 0; i < NUM_REGISTERS; ++i) {
+			result += "v" + std::to_string(i) + " = " + std::to_string(v[i]) + "\n";
+		}
+
+		result = result + "\n" + "i = " + std::to_string(i) + "\n";
+	
+		return result;
+	}
 };
 
 }
