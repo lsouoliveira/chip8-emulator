@@ -1,10 +1,11 @@
 #ifndef INSTRUCTION_H
 #define INSTRUCTION_H
 
+#include <cpu_state.h>
+
 namespace Chip8 
 {
 
-struct CPUState;
 class Instruction {
 private:
 public:

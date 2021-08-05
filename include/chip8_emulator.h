@@ -6,6 +6,7 @@
 #include <cpu.h>
 #include <video.h>
 #include <instructions/instruction.h>
+#include <instructions/clear_screen_instruction.h>
 #include <instructions/instruction_map.h>
 
 namespace Chip8 {

@@ -3,10 +3,11 @@
 namespace Chip8 {
 
 CPU::CPU(Video* video)
-	: video_(video)
 {
 	instruction_map_ = new InstructionMap(std::vector<unsigned short>{0xFFFF, 0xF0FF, 0xF00F, 0xF000});
 	instruction_map_->Add(0x00E0, new ClearScreenInstruction());
+
+	state_.video = video;
 }
 
 CPU::~CPU()
@@ -49,7 +50,7 @@ void CPU::EmulateInstruction()
 		instruction->Process(&state_);
 		spdlog::info("Instruction found \"{0:x}\"", state_.opcode);
 	} else if(state_.opcode != 0) {
-		//spdlog::warn("Instruction not found \"{0:x}\"", state_.opcode);	
+		spdlog::warn("Instruction not found \"{0:x}\"", state_.opcode);	
 	}
 }
 

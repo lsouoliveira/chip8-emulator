@@ -5,6 +5,7 @@
 
 namespace Chip8
 {
+
 class ClearScreenInstruction : public Instruction
 {
 private:

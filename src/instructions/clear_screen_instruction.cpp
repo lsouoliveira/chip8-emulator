@@ -8,7 +8,8 @@ ClearScreenInstruction::ClearScreenInstruction()
 }
 
 void ClearScreenInstruction::Process(CPUState* state)
-{
+{	
+	state->video->ClearBuffer();
 }
 
 }
