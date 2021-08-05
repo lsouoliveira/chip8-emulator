@@ -14,6 +14,7 @@ private:
 public:
     Video();
     void ClearBuffer();
+    unsigned char* GetBuffer();
 };
 
 }
