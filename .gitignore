@@ -1,4 +1,5 @@
 build/
+Debug/
 ctags
 .*.swp
 .*.swo
