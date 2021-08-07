@@ -25,7 +25,7 @@
 axxx	mvi xxx	Load index register with constant xxx	
 bxxx	jmi xxx	Jump to address xxx+register v0	
 crxx	rand vr,xxx   	vr = random number less than or equal to xxx	
-drys	sprite rx,ry,s	Draw sprite at screen location rx,ry height s	Sprites stored in memory at location in index register, maximum 8 bits wide. Wraps around the screen. If when drawn, clears a pixel, vf is set to 1 otherwise it is zero. All drawing is xor drawing (e.g. it toggles the screen pixels
+drys	sprite rx,ry,s DONE	
 dry0	xsprite rx,ry	Draws extended sprite at screen location rx,ry	As above,but sprite is always 16 x 16. Superchip only, not yet implemented
 ek9e	skpr k	skip if key (register rk) pressed	The key is a key number, see the chip-8 documentation
 eka1	skup k	skip if key (register rk) not pressed	

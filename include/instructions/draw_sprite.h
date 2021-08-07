@@ -1,6 +1,8 @@
 #ifndef DRAW_SPRITE_H
 #define DRAW_SPRITE_H
+
 #include <instructions/instruction.h>
+#include <iostream>
 
 namespace Chip8
 {

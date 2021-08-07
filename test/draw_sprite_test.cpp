@@ -58,10 +58,11 @@ protected:
 };
 
 TEST_F(DrawSpriteTest, ShouldDrawSpriteAtCorrectCoords) {
-	int spriteX = 60;
-	int spriteY = 28;
+	int spriteX = 10;
+	int spriteY = 10;
 	unsigned short opcode = 0xd014;	
 
+	cpu_state_->opcode = opcode;
 	cpu_state_->i = *sprite_data_address_;
 	cpu_state_->v[0] = spriteX;
 	cpu_state_->v[1] = spriteY;
@@ -80,16 +81,16 @@ TEST_F(DrawSpriteTest, ShouldDrawSpriteAtCorrectCoords) {
 		}
 
 		EXPECT_EQ(spriteLine, cpu_state_->memory[*sprite_data_address_ + i]);
-		std::cout << (int) cpu_state_->memory[*sprite_data_address_ + i] << std::endl; 
 	}
 }
 
 
 TEST_F(DrawSpriteTest, ShouldDrawSpriteWrappedAcrossScreen) {
-	int spriteX = 10;
-	int spriteY = 10;
+	int spriteX = 60;
+	int spriteY = 30;
 	unsigned short opcode = 0xd014;	
 
+	cpu_state_->opcode = opcode;
 	cpu_state_->i = *sprite_data_address_;
 	cpu_state_->v[0] = spriteX;
 	cpu_state_->v[1] = spriteY;
@@ -106,8 +107,7 @@ TEST_F(DrawSpriteTest, ShouldDrawSpriteWrappedAcrossScreen) {
 
 			spriteLine = (spriteLine << 1) + pixel;
 		}
-
-		EXPECT_EQ(spriteLine, cpu_state_->memory[*sprite_data_address_ + i * (*sprite_height_)]);
+		EXPECT_EQ(spriteLine, cpu_state_->memory[*sprite_data_address_ + i]);
 	}
 }
 
@@ -116,6 +116,7 @@ TEST_F(DrawSpriteTest, ShouldRegisterCollision) {
 	int spriteY = 10;
 	unsigned short opcode = 0xd014;	
 
+	cpu_state_->opcode = opcode;
 	cpu_state_->i = *sprite_data_address_;
 	cpu_state_->v[0] = spriteX;
 	cpu_state_->v[1] = spriteY;
