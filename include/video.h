@@ -10,9 +10,10 @@ namespace Chip8 {
 
 class Video {
 private:
-    unsigned char buffer_[VIDEO_BUFFER_SIZE];
+    unsigned char* buffer_;
 public:
     Video();
+	~Video();
     void ClearBuffer();
     unsigned char* GetBuffer();
 };

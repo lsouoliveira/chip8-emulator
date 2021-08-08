@@ -11,17 +11,33 @@ namespace Chip8
 
 struct CPUState {
     unsigned short opcode;
-    unsigned char memory[MEMORY_SIZE];
-    unsigned char v[NUM_REGISTERS];
+   	unsigned char* memory;
+    unsigned char* v;
     unsigned short i;
     unsigned short pc;
     unsigned char delayTimer;
     unsigned char soundTimer;
-    unsigned short stack[STACK_SIZE];
+    unsigned short* stack;
     unsigned short sp;
-    unsigned char key[NUM_KEYS];
+    unsigned char* key;
 	double updateCounter;
 	Video* video;
+
+	CPUState()
+	{
+		memory = new unsigned char[MEMORY_SIZE];
+		v = new unsigned char[NUM_REGISTERS]; 
+		stack = new unsigned short[STACK_SIZE];
+		key = new unsigned char[NUM_KEYS];
+	}
+
+	~CPUState()
+	{
+		delete[] memory;
+		delete[] v;
+		delete[] stack;
+		delete[] key;
+	}
 
 	std::string ToString()
 	{
@@ -32,6 +48,13 @@ struct CPUState {
 		}
 
 		result = result + "\n" + "i = " + std::to_string(i) + "\n";
+
+		for (int i = 0; i < 32; ++i) {
+			for (int j = 0; j < 64; j++) {
+				result = result + std::to_string((int) video->GetBuffer()[64 * i + j]);
+			}
+			result = result + "\n";
+		}
 	
 		return result;
 	}

@@ -37,7 +37,9 @@ protected:
 };
 
 TEST_F(ClearScreenInstructionTest, ShouldClearScreenBuffer) {
-    std::memset(cpu_state_->video, 1, sizeof(cpu_state_->video));
+	for (int i = 0; i < Chip8::VIDEO_BUFFER_SIZE; ++i) {
+		cpu_state_->video->GetBuffer()[i] = 1;
+	}
 	instruction_->Process(cpu_state_);
 	for (int i = 0; i < Chip8::VIDEO_BUFFER_SIZE; ++i) {
 		EXPECT_EQ(cpu_state_->video->GetBuffer()[i], 0);

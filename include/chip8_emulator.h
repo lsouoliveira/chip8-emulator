@@ -13,8 +13,8 @@ namespace Chip8 {
 
 class Chip8Emulator {
 private:
-    CPU* cpu_;
 	Video* video_;
+    CPU* cpu_;
 public:
     Chip8Emulator();
     ~Chip8Emulator();

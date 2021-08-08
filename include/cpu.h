@@ -17,6 +17,7 @@
 #include <instructions/clear_screen_instruction.h>
 #include <instructions/move_constant_instruction.h>
 #include <instructions/load_index_register.h>
+#include <instructions/draw_sprite.h>
 
 class Instruction;
 

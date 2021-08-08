@@ -8,6 +8,7 @@ CPU::CPU(Video* video)
 	instruction_map_->Add(0x00E0, new ClearScreenInstruction());
 	instruction_map_->Add(0x6000, new MoveConstantInstruction());
 	instruction_map_->Add(0xa000, new LoadIndexRegister());
+	instruction_map_->Add(0xd000, new DrawSprite());
 
 	state_.video = video;
 }
@@ -26,9 +27,9 @@ void CPU::Init()
 
 	state_.updateCounter = UPDATE_FREQUENCY;
 
-    std::memset(state_.v, 0, sizeof(state_.v));
-    std::memset(state_.stack, 0, sizeof(state_.stack));
-    std::memset(state_.memory, 0, sizeof(state_.memory));
+    std::memset(state_.v, 0, NUM_REGISTERS);
+    std::memset(state_.stack, 0, STACK_SIZE);
+    std::memset(state_.memory, 0, MEMORY_SIZE);
 
     for(int i = 0; i < 80; i++) {
         state_.memory[i] = chip8_fontset[i];
@@ -49,8 +50,8 @@ void CPU::EmulateInstruction()
 {
 	Instruction* instruction = instruction_map_->Get(state_.opcode);
 	if(instruction != nullptr) {
-		instruction->Process(&state_);
 		spdlog::info("Instruction found \"{0:x}\"", state_.opcode);
+		instruction->Process(&state_);
 		std::cout << std::endl << state_.ToString() << std::endl;
 	} else if(state_.opcode != 0) {
 		spdlog::warn("Instruction not found \"{0:x}\"", state_.opcode);	
