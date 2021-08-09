@@ -20,6 +20,7 @@ using std::chrono::system_clock;
 #include <QtCore/Qt>
 #include <QHBoxLayout>
 #include <QBoxLayout>
+#include <QKeyEvent>
 
 // #include <spdlog/spdlog.h>
 
@@ -40,7 +41,8 @@ public slots:
 signals:
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     void setupPalette();
@@ -49,6 +51,7 @@ private:
     double getDeltaTime();
     void updateScreen(double deltaTime);
     void drawScreen(QPainter& painter);
+    void execInstruction();
 
     Chip8::Chip8Emulator m_Emulator;
     QTimer *m_Timer;

@@ -25,6 +25,7 @@ EmulatorScreen::EmulatorScreen(QWidget *parent) : QFrame(parent)
     setLayout(layout);
 
     m_Emulator.Init();
+    m_IsDebbuging = false;
 }
 
 void EmulatorScreen::paintEvent(QPaintEvent *event)
@@ -32,7 +33,18 @@ void EmulatorScreen::paintEvent(QPaintEvent *event)
     QFrame::paintEvent(event);
 
     QPainter painter(this);
+
+    painter.fillRect(0, 0, size().width(), size().height(), QColor(0, 0, 0));
     drawScreen(painter);
+}
+
+void EmulatorScreen::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key()) {
+        case Qt::Key_N:
+            execInstruction();
+            break;
+    }
 }
 
 void EmulatorScreen::setupPalette()
@@ -88,13 +100,14 @@ void EmulatorScreen::updateScreen(double deltaTime)
 
 void EmulatorScreen::drawScreen(QPainter& painter)
 {
-    int rectWidth = std::ceil(size().width() / 64.0);
-    int rectHeight = std::ceil(size().height() / 32.0);
+
+    int rectWidth = size().width() / 64.0;
+    int rectHeight = size().height() / 32.0;
 
     for(int i = 0; i < 32; i++) {
         for(int j = 0; j < 64; j++) {
-            if(m_Emulator.video()->GetBuffer()[i * 32 + j] == 1) {
-                painter.fillRect(j * rectWidth, i * rectHeight, rectWidth, rectHeight, 0x00FF00);
+            if(m_Emulator.video()->GetBuffer()[i * 64 + j] == 1) {
+            painter.fillRect(j * rectWidth, i * rectHeight, rectWidth, rectHeight, 0x00FF00);
             }
         }
     }
@@ -115,4 +128,11 @@ void EmulatorScreen::toggleDebugging()
     m_IsDebbuging = !m_IsDebbuging;
     m_Emulator.cpu()->SetDebug(m_IsDebbuging);
     m_CpuStateLabel->setVisible(m_IsDebbuging);
+}
+
+void EmulatorScreen::execInstruction()
+{
+    if(!m_Emulator.cpu()->is_paused() && m_Emulator.cpu()->is_debugging()) {
+        m_Emulator.cpu()->Step();
+    }
 }

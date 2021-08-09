@@ -33,7 +33,7 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/utils.cpp \
-    src/video.cpp
+    src/video.cpp \
 
 HEADERS += \
     includes/chip8_emulator.h \

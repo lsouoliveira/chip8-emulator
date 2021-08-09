@@ -7,16 +7,16 @@
 class MoveConstantInstructionTest : public ::testing::Test {
 protected:
 	Chip8::CPUState* cpu_state_;	
-	Chip8::MoveConstantInstruction* instruction_;
+    Chip8::MoveConstantInstruction* instruction_;
 
 	MoveConstantInstructionTest() 
 	{
-		instruction_ = new Chip8::MoveConstantInstruction();
+        instruction_ = new Chip8::MoveConstantInstruction();
 	}
 
 	~MoveConstantInstructionTest() 
 	{
-		delete instruction_;
+        delete instruction_;
 	}
 
     void SetUp() override
@@ -39,7 +39,7 @@ TEST_F(MoveConstantInstructionTest, ShouldLoadRegisterWithCorrectValue) {
 	unsigned short opcode = 0x64FF;
 	cpu_state_->opcode = opcode;
 
-	instruction_->Process(cpu_state_);
+    instruction_->Process(cpu_state_);
 	
 	EXPECT_EQ(cpu_state_->v[4], 0x00FF);
 }

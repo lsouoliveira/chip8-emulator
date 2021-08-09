@@ -47,6 +47,7 @@ public:
     void Step();
     void Reset();
     void SetDebug(bool enabled);
+    bool is_debugging();
 };
 
 }

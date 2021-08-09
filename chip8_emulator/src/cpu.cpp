@@ -42,12 +42,11 @@ void CPU::EmulateInstruction()
 {
 	Instruction* instruction = instruction_map_->Get(state_.opcode);
 	if(instruction != nullptr) {
-    //	spdlog::info("Instruction found \"{0:x}\"", state_.opcode);
+        std::cout << "Instruction found 0x" << std::hex << state_.opcode << std::endl;
 		instruction->Process(&state_);
-		std::cout << std::endl << state_.ToString() << std::endl;
 	} else if(state_.opcode != 0) {
-        //spdlog::warn("Instruction not found \"{0:x}\"", state_.opcode);
-	}
+        std::cout << "Instruction not found 0x" << std::hex << state_.opcode << std::endl;
+    }
 }
 
 void CPU::EmulateCycles(int numCycles)
@@ -128,6 +127,11 @@ void CPU::Step()
 {
     FetchOpcode();
     EmulateInstruction();
+}
+
+bool CPU::is_debugging()
+{
+    return is_debug_enabled_;
 }
 
 }
