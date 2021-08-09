@@ -44,18 +44,11 @@ struct CPUState {
 		std::string result = "";
 
 		for (int i = 0; i < NUM_REGISTERS; ++i) {
-			result += "v" + std::to_string(i) + " = " + std::to_string(v[i]) + "\n";
+            result += "V" + std::to_string(i) + "=" + std::to_string(v[i]) + " / ";
 		}
 
-		result = result + "\n" + "i = " + std::to_string(i) + "\n";
+        result = result + "I=" + std::to_string(i);
 
-		for (int i = 0; i < 32; ++i) {
-			for (int j = 0; j < 64; j++) {
-				result = result + std::to_string((int) video->GetBuffer()[64 * i + j]);
-			}
-			result = result + "\n";
-		}
-	
 		return result;
 	}
 };

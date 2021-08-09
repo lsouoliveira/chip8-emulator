@@ -30,4 +30,14 @@ void Chip8Emulator::Load(const std::vector<unsigned char>& buffer)
 	cpu_->Load(buffer);
 }
 
+CPU* Chip8Emulator::cpu()
+{
+    return cpu_;
+}
+
+Video* Chip8Emulator::video()
+{
+    return video_;
+}
+
 }

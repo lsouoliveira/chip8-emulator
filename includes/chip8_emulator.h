@@ -21,6 +21,8 @@ public:
     void Init();
     void Update(double deltaTime);
 	void Load(const std::vector<unsigned char>& buffer);
+    CPU* cpu();
+    Video* video();
 };
 
 }

@@ -8,7 +8,7 @@
 #include <functional>
 #include <unordered_map>
 
-#include <spdlog/spdlog.h>
+// #include <spdlog/spdlog.h>
 
 #include <constants.h>
 #include <video.h>
@@ -27,6 +27,8 @@ class CPU {
 private:
 	CPUState state_;
 	InstructionMap* instruction_map_;
+    bool is_paused_;
+    bool is_debug_enabled_;
 	
 	void FetchOpcode();
 	void EmulateInstruction();
@@ -38,6 +40,13 @@ public:
 	void Update(double deltaTime);
 	void UpdateTimers();
 	void Load(const std::vector<unsigned char>& buffer);
+    void Start();
+    void Pause();
+    CPUState& state();
+    bool is_paused();
+    void Step();
+    void Reset();
+    void SetDebug(bool enabled);
 };
 
 }

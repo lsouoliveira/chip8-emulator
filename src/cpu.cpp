@@ -3,6 +3,7 @@
 namespace Chip8 {
 
 CPU::CPU(Video* video)
+    : is_paused_(true)
 {
 	instruction_map_ = new InstructionMap(std::vector<unsigned short>{0xFFFF, 0xF0FF, 0xF00F, 0xF000});
 	instruction_map_->Add(0x00E0, new ClearScreenInstruction());
@@ -20,16 +21,7 @@ CPU::~CPU()
 
 void CPU::Init()
 {
-    state_.pc = STARTING_MEMORY_ADDR;
-    state_.opcode = 0;
-    state_.i = 0;
-    state_.sp = 0;
-
-	state_.updateCounter = UPDATE_FREQUENCY;
-
-    std::memset(state_.v, 0, NUM_REGISTERS);
-    std::memset(state_.stack, 0, STACK_SIZE);
-    std::memset(state_.memory, 0, MEMORY_SIZE);
+    Reset();
 
     for(int i = 0; i < 80; i++) {
         state_.memory[i] = chip8_fontset[i];
@@ -50,33 +42,48 @@ void CPU::EmulateInstruction()
 {
 	Instruction* instruction = instruction_map_->Get(state_.opcode);
 	if(instruction != nullptr) {
-		spdlog::info("Instruction found \"{0:x}\"", state_.opcode);
+    //	spdlog::info("Instruction found \"{0:x}\"", state_.opcode);
 		instruction->Process(&state_);
 		std::cout << std::endl << state_.ToString() << std::endl;
 	} else if(state_.opcode != 0) {
-		spdlog::warn("Instruction not found \"{0:x}\"", state_.opcode);	
+        //spdlog::warn("Instruction not found \"{0:x}\"", state_.opcode);
 	}
-	
-	getchar();
 }
 
 void CPU::EmulateCycles(int numCycles)
 {
 	while(numCycles--) {
 		FetchOpcode();
-		EmulateInstruction();
+        EmulateInstruction();
 	}
+}
+
+void CPU::Reset()
+{
+    state_.pc = STARTING_MEMORY_ADDR;
+    state_.opcode = 0;
+    state_.i = 0;
+    state_.sp = 0;
+
+    state_.updateCounter = UPDATE_FREQUENCY;
+
+    std::memset(state_.v, 0, NUM_REGISTERS);
+    std::memset(state_.stack, 0, STACK_SIZE);
 }
 
 void CPU::Update(double deltaTime)
 {
 	state_.updateCounter -= deltaTime;	
-	
+
 	if(state_.updateCounter <= 0.0) {
 		state_.updateCounter = UPDATE_FREQUENCY;
-		
-		EmulateCycles(CYCLES_PER_UPDATE);
-		UpdateTimers();
+
+        if(!is_paused_) {
+            if(!is_debug_enabled_) {
+                EmulateCycles(CYCLES_PER_UPDATE);
+            }
+            UpdateTimers();
+        }
 	}
 }
 
@@ -91,6 +98,36 @@ void CPU::Load(const std::vector<unsigned char>& buffer)
     for(size_t i = 0; i < buffer.size(); i++) {
         state_.memory[STARTING_MEMORY_ADDR + i] = buffer[i];
     }
+}
+
+CPUState& CPU::state() {
+    return state_;
+}
+
+void CPU::Start()
+{
+    is_paused_ = false;
+}
+
+void CPU::Pause()
+{
+    is_paused_ = true;
+}
+
+void CPU::SetDebug(bool enabled)
+{
+    is_debug_enabled_ = enabled;
+}
+
+bool CPU::is_paused()
+{
+    return is_paused_;
+}
+
+void CPU::Step()
+{
+    FetchOpcode();
+    EmulateInstruction();
 }
 
 }
