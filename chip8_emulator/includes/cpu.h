@@ -14,23 +14,7 @@
 #include <video.h>
 #include <cpu_state.h>
 #include <instructions/instruction_map.h>
-#include <instructions/clear_screen_instruction.h>
-#include <instructions/move_constant_instruction.h>
-#include <instructions/load_index_register.h>
-#include <instructions/draw_sprite.h>
-#include <instructions/call_addr.h>
-#include <instructions/bcd.h>
-#include <instructions/read_sequence.h>
-#include <instructions/sprite_location.h>
-#include <instructions/add_constant.h>
-#include <instructions/ret.h>
-#include <instructions/set_delay_timer.h>
-#include <instructions/move_delay_timer.h>
-#include <instructions/skip_if_equal.h>
-#include <instructions/jump.h>
-#include <instructions/random_number.h>
-
-class Instruction;
+#include <instructions/instructions.h>
 
 namespace Chip8 {
 

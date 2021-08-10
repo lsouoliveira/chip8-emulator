@@ -24,23 +24,8 @@ SOURCES += \
     includes/emulatorscreen.cpp \
     src/chip8_emulator.cpp \
     src/cpu.cpp \
-    src/instructions/add_constant.cpp \
-    src/instructions/bcd.cpp \
-    src/instructions/call_addr.cpp \
-    src/instructions/clear_screen_instruction.cpp \
-    src/instructions/draw_sprite.cpp \
-    src/instructions/instruction.cpp \
     src/instructions/instruction_map.cpp \
-    src/instructions/jump.cpp \
-    src/instructions/load_index_register.cpp \
-    src/instructions/move_constant_instruction.cpp \
-    src/instructions/move_delay_timer.cpp \
-    src/instructions/random_number.cpp \
-    src/instructions/read_sequence.cpp \
-    src/instructions/ret.cpp \
-    src/instructions/set_delay_timer.cpp \
-    src/instructions/skip_if_equal.cpp \
-    src/instructions/sprite_location.cpp \
+    src/instructions/instructions.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/utils.cpp \
@@ -52,24 +37,8 @@ HEADERS += \
     includes/cpu.h \
     includes/cpu_state.h \
     includes/emulatorscreen.h \
-    includes/instructions/add_constant.h \
-    includes/instructions/bcd.h \
-    includes/instructions/call_addr.h \
-    includes/instructions/clear_screen_instruction.h \
-    includes/instructions/draw_sprite.h \
-    includes/instructions/instruction.h \
     includes/instructions/instruction_map.h \
-    includes/instructions/jump.h \
-    includes/instructions/load_index_register.h \
-    includes/instructions/load_register_with_constant.h \
-    includes/instructions/move_constant_instruction.h \
-    includes/instructions/move_delay_timer.h \
-    includes/instructions/random_number.h \
-    includes/instructions/read_sequence.h \
-    includes/instructions/ret.h \
-    includes/instructions/set_delay_timer.h \
-    includes/instructions/skip_if_equal.h \
-    includes/instructions/sprite_location.h \
+    includes/instructions/instructions.h \
     includes/mainwindow.h \
     includes/utils.h \
     includes/video.h

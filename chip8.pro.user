@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.1, 2021-08-10T12:46:39. -->
+<!-- Written by QtCreator 4.14.1, 2021-08-10T18:45:55. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -66,31 +66,31 @@
    </valuemap>
    <valuemap type="QVariantMap" key="AutoTest.CheckStates">
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/add_constant_test.cpp:AddConstantTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/add_constant_test.cpp:ShouldAddConstantToRegister">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/and_registers_test.cpp:AndRegistersTest">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/bcd_test.cpp:BcdTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/bcd_test.cpp:ShouldSavePCInStackAndIncrementSP">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/call_addr_test.cpp:CallAddrTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/call_addr_test.cpp:ShouldSavePCInStackAndIncrementSP">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/clear_screen_instruction_test.cpp:ClearScreenInstructionTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/clear_screen_instruction_test.cpp:ShouldClearScreenBuffer">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/draw_sprite_test.cpp:DrawSpriteTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/draw_sprite_test.cpp:ShouldDrawSpriteAtCorrectCoords">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/draw_sprite_test.cpp:ShouldDrawSpriteWrappedAcrossScreen">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/draw_sprite_test.cpp:ShouldRegisterCollision">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LoadRegisterWithConstant">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldAddConstantToRegister">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldClearScreenBuffer">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldLoadRegisterIWithCorrectValue">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldLoadRegisterWithCorrectValue">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldMoveDelayTimerToRegister">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldNotSkipNextInstructionIfKeyIsPressed">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldNotSkipNextInstructionIfVxDifferentToKk">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldPerformBitwiseAndBetweenRegisters">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldPointToFontSpriteLocation">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSavePCInStackAndIncrementSP">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSetDelayTimerToRegisterValue">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSkipNextInstructionIfKeyNotPressed">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSkipNextInstructionIfVxEqualToKk">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldWriteAddressSequenceIntoRegisters">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/load_index_register_test.cpp:LoadIndexRegisterTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/load_index_register_test.cpp:ShouldLoadRegisterIWithCorrectValue">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/move_constant_instruction_test.cpp:MoveConstantInstructionTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/move_constant_instruction_test.cpp:ShouldLoadRegisterWithCorrectValue">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/move_delay_timer_test.cpp:MoveDelayTimerTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/move_delay_timer_test.cpp:ShouldMoveDelayTimerToRegister">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/read_sequence_test.cpp:ReadSequenceTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/read_sequence_test.cpp:ShouldWriteAddressSequenceIntoRegisters">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/set_delay_timer_test.cpp:SetDelayTimerTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/set_delay_timer_test.cpp:ShouldSetDelayTimerToRegisterValue">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/skip_if_equal_test.cpp:ShouldNotSkipNextInstructionIfVxDifferentToKk">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/skip_if_equal_test.cpp:ShouldSkipNextInstructionIfVxEqualToKk">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/skip_if_equal_test.cpp:SkipIfEqualTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/sprite_location_test.cpp:ShouldPointToFontSpriteLocation">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/skip_if_key_not_pressed_test.cpp:SkipIfKeyNotPressedTest">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/sprite_location_test.cpp:SpriteLocationTest">Checked</value>
    </valuemap>
    <value type="int" key="AutoTest.RunAfterBuild">0</value>

@@ -6,21 +6,23 @@ CPU::CPU(Video* video)
     : is_paused_(true)
 {
 	instruction_map_ = new InstructionMap(std::vector<unsigned short>{0xFFFF, 0xF0FF, 0xF00F, 0xF000});
-	instruction_map_->Add(0x00E0, new ClearScreenInstruction());
-	instruction_map_->Add(0x6000, new MoveConstantInstruction());
-	instruction_map_->Add(0xa000, new LoadIndexRegister());
-	instruction_map_->Add(0xd000, new DrawSprite());
-    instruction_map_->Add(0x2000, new CallAddr());
-    instruction_map_->Add(0xf033, new Bcd());
-    instruction_map_->Add(0xf065, new ReadSequence());
-    instruction_map_->Add(0xf029, new SpriteLocation());
-    instruction_map_->Add(0x7000, new AddConstant());
-    instruction_map_->Add(0x00ee, new Ret());
-    instruction_map_->Add(0xf015, new SetDelayTimer());
-    instruction_map_->Add(0xf007, new MoveDelayTimer());
-    instruction_map_->Add(0x3000, new SkipIfEqual());
-    instruction_map_->Add(0x1000, new Jump());
-    instruction_map_->Add(0xc000, new RandomNumber());
+    instruction_map_->Add(0x00E0, BIND_INSTRUCTION_CALLBACK(Instructions::ClearScreen));
+    instruction_map_->Add(0x6000, BIND_INSTRUCTION_CALLBACK(Instructions::LoadRegisterWithConstant));
+    instruction_map_->Add(0xa000, BIND_INSTRUCTION_CALLBACK(Instructions::LoadIndexRegister));
+    instruction_map_->Add(0xd000, BIND_INSTRUCTION_CALLBACK(Instructions::DrawSprite));
+    instruction_map_->Add(0x2000, BIND_INSTRUCTION_CALLBACK(Instructions::CallAddr));
+    instruction_map_->Add(0xf033, BIND_INSTRUCTION_CALLBACK(Instructions::Bcd));
+    instruction_map_->Add(0xf065, BIND_INSTRUCTION_CALLBACK(Instructions::ReadSequenceIntoRegisters));
+    instruction_map_->Add(0xf029, BIND_INSTRUCTION_CALLBACK(Instructions::FontSpriteLocation));
+    instruction_map_->Add(0x7000, BIND_INSTRUCTION_CALLBACK(Instructions::AddConstant));
+    instruction_map_->Add(0x00ee, BIND_INSTRUCTION_CALLBACK(Instructions::Ret));
+    instruction_map_->Add(0xf015, BIND_INSTRUCTION_CALLBACK(Instructions::SetDelayTimer));
+    instruction_map_->Add(0xf007, BIND_INSTRUCTION_CALLBACK(Instructions::MoveDelayTimer));
+    instruction_map_->Add(0x3000, BIND_INSTRUCTION_CALLBACK(Instructions::SkipIfEqual));
+    instruction_map_->Add(0x1000, BIND_INSTRUCTION_CALLBACK(Instructions::Jump));
+    instruction_map_->Add(0xc000, BIND_INSTRUCTION_CALLBACK(Instructions::RandomNumber));
+    instruction_map_->Add(0xe0a1, BIND_INSTRUCTION_CALLBACK(Instructions::SkipIfKeyNotPressed));
+    instruction_map_->Add(0x8002, BIND_INSTRUCTION_CALLBACK(Instructions::AndRegister));
 
 	state_.video = video;
 }
@@ -42,10 +44,10 @@ void CPU::FetchOpcode()
 
 void CPU::EmulateInstruction()
 {
-	Instruction* instruction = instruction_map_->Get(state_.opcode);
-	if(instruction != nullptr) {
+    auto instruction = instruction_map_->Get(state_.opcode);
+    if(instruction) {
         std::cout << "Instruction found 0x" << std::hex << state_.opcode << std::endl;
-		instruction->Process(&state_);
+        instruction(&state_);
 	} else if(state_.opcode != 0) {
         std::cout << "Instruction not found 0x" << std::hex << state_.opcode << std::endl;
     }
@@ -80,6 +82,10 @@ void CPU::Reset()
 
     for(int i = 0; i < NUM_REGISTERS; i++) {
         state_.v[i] = 0;
+    }
+
+    for(int i = 0; i < NUM_KEYS; i++) {
+        state_.key[i] = 0;
     }
 
     for(int i = 0; i < 80; i++) {
@@ -142,6 +148,7 @@ bool CPU::is_paused()
 
 void CPU::Step()
 {
+    if(!is_paused() && is_debug_enabled_)
     FetchOpcode();
     EmulateInstruction();
 }

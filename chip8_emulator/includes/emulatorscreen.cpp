@@ -57,8 +57,6 @@ void EmulatorScreen::keyReleaseEvent(QKeyEvent *event)
     if(m_KeyCallbackMapping.find(event->key()) != m_KeyCallbackMapping.end()) {
         if(m_KeyMapping.find(event->key()) != m_KeyMapping.end()) {
             m_KeyCallbackMapping[event->key()](m_KeyMapping[event->key()], false);
-        } else {
-            m_KeyCallbackMapping[event->key()](event->key(), true);
         }
     }
 }
@@ -115,13 +113,13 @@ void EmulatorScreen::updateScreen(double deltaTime)
 void EmulatorScreen::drawScreen(QPainter& painter)
 {
 
-    int rectWidth = size().width() / 64.0;
-    int rectHeight = size().height() / 32.0;
+    int rectWidth = std::ceil(size().width() / 64.0);
+    int rectHeight = std::ceil(size().height() / 32.0);
 
     for(int i = 0; i < 32; i++) {
         for(int j = 0; j < 64; j++) {
             if(m_Emulator.video()->GetBuffer()[i * 64 + j] == 1) {
-            painter.fillRect(j * rectWidth, i * rectHeight, rectWidth, rectHeight, 0x00FF00);
+                painter.fillRect(j * rectWidth, i * rectHeight, rectWidth, rectHeight, 0x00FF00);
             }
         }
     }
