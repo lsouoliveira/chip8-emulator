@@ -10,6 +10,17 @@ CPU::CPU(Video* video)
 	instruction_map_->Add(0x6000, new MoveConstantInstruction());
 	instruction_map_->Add(0xa000, new LoadIndexRegister());
 	instruction_map_->Add(0xd000, new DrawSprite());
+    instruction_map_->Add(0x2000, new CallAddr());
+    instruction_map_->Add(0xf033, new Bcd());
+    instruction_map_->Add(0xf065, new ReadSequence());
+    instruction_map_->Add(0xf029, new SpriteLocation());
+    instruction_map_->Add(0x7000, new AddConstant());
+    instruction_map_->Add(0x00ee, new Ret());
+    instruction_map_->Add(0xf015, new SetDelayTimer());
+    instruction_map_->Add(0xf007, new MoveDelayTimer());
+    instruction_map_->Add(0x3000, new SkipIfEqual());
+    instruction_map_->Add(0x1000, new Jump());
+    instruction_map_->Add(0xc000, new RandomNumber());
 
 	state_.video = video;
 }
@@ -22,10 +33,6 @@ CPU::~CPU()
 void CPU::Init()
 {
     Reset();
-
-    for(int i = 0; i < 80; i++) {
-        state_.memory[i] = chip8_fontset[i];
-    }
 }
 
 void CPU::FetchOpcode()
@@ -63,11 +70,26 @@ void CPU::Reset()
     state_.opcode = 0;
     state_.i = 0;
     state_.sp = 0;
+    state_.delayTimer = 0;
+    state_.soundTimer = 0;
 
     state_.updateCounter = UPDATE_FREQUENCY;
 
-    std::memset(state_.v, 0, NUM_REGISTERS);
-    std::memset(state_.stack, 0, STACK_SIZE);
+    for(int i = 0; i < MEMORY_SIZE; i++) {
+        state_.memory[i] = 0;
+    }
+
+    for(int i = 0; i < STACK_SIZE; i++) {
+        state_.stack[i] = 0;
+    }
+
+    for(int i = 0; i < NUM_REGISTERS; i++) {
+        state_.v[i] = 0;
+    }
+
+    for(int i = 0; i < 80; i++) {
+        state_.memory[i] = chip8_fontset[i];
+    }
 }
 
 void CPU::Update(double deltaTime)

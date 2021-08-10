@@ -35,8 +35,15 @@ void MainWindow::exit()
 
 void MainWindow::load()
 {
+    QSettings settings;
+
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open a ROM"), "", "");
+        tr("Open a ROM"), settings.value("mainwindow/romPath").toString(), "");
+
+    if(!fileName.isEmpty()) {
+        QDir dir;
+        settings.setValue("mainwindow/romPath", dir.absoluteFilePath(fileName));
+    }
 
     m_EmulatorScreen->load(fileName);
 }

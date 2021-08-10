@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QSettings>
 
 #include <emulatorscreen.h>
 

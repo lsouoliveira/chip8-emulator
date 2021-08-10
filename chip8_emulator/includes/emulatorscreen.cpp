@@ -26,6 +26,8 @@ EmulatorScreen::EmulatorScreen(QWidget *parent) : QFrame(parent)
 
     m_Emulator.Init();
     m_IsDebbuging = false;
+
+    toggleDebugging();
 }
 
 void EmulatorScreen::paintEvent(QPaintEvent *event)
@@ -59,12 +61,12 @@ void EmulatorScreen::setupPalette()
 void EmulatorScreen::load(QString fileName)
 {
     std::vector<unsigned char> data = Chip8::ReadData(fileName.toStdString());
-    m_Emulator.Load(data);
 
     m_Emulator.cpu()->Reset();
     m_Emulator.cpu()->Start();
+    m_Emulator.video()->ClearBuffer();
 
-    // spdlog::info("ROM loaded");
+    m_Emulator.Load(data);
 }
 
 void EmulatorScreen::updateEmulator()

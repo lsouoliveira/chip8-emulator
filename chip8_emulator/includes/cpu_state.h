@@ -47,7 +47,8 @@ struct CPUState {
             result += "V" + std::to_string(i) + "=" + std::to_string(v[i]) + " / ";
 		}
 
-        result = result + "I=" + std::to_string(i);
+        result = result + "I=" + std::to_string(i) + " / ";
+        result = result + "delay_timer=" + std::to_string(delayTimer) + " / ";
 
 		return result;
 	}
