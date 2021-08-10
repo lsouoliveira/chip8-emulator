@@ -50,10 +50,13 @@ struct CPUState {
         result = result + "I=" + std::to_string(i) + " / ";
         result = result + "delay_timer=" + std::to_string(delayTimer) + " / ";
 
+        for (int i = 0; i < NUM_KEYS; ++i) {
+            result += "k" + std::to_string(i) + "=" + std::to_string(key[i]) + " / ";
+        }
+
 		return result;
 	}
 };
-
 }
 
 #endif

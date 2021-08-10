@@ -6,6 +6,7 @@ EmulatorScreen::EmulatorScreen(QWidget *parent) : QFrame(parent)
     setFocusPolicy(Qt::StrongFocus);
 
     setupPalette();
+    setupKeyMapping();
 
     m_Timer = new QTimer(this);
     connect(m_Timer, &QTimer::timeout, [this]{ updateEmulator(); });
@@ -42,10 +43,23 @@ void EmulatorScreen::paintEvent(QPaintEvent *event)
 
 void EmulatorScreen::keyPressEvent(QKeyEvent *event)
 {
-    switch(event->key()) {
-        case Qt::Key_N:
-            execInstruction();
-            break;
+    if(m_KeyCallbackMapping.find(event->key()) != m_KeyCallbackMapping.end()) {
+        if(m_KeyMapping.find(event->key()) != m_KeyMapping.end()) {
+            m_KeyCallbackMapping[event->key()](m_KeyMapping[event->key()], true);
+        } else {
+            m_KeyCallbackMapping[event->key()](event->key(), true);
+        }
+    }
+}
+
+void EmulatorScreen::keyReleaseEvent(QKeyEvent *event)
+{
+    if(m_KeyCallbackMapping.find(event->key()) != m_KeyCallbackMapping.end()) {
+        if(m_KeyMapping.find(event->key()) != m_KeyMapping.end()) {
+            m_KeyCallbackMapping[event->key()](m_KeyMapping[event->key()], false);
+        } else {
+            m_KeyCallbackMapping[event->key()](event->key(), true);
+        }
     }
 }
 
@@ -62,11 +76,9 @@ void EmulatorScreen::load(QString fileName)
 {
     std::vector<unsigned char> data = Chip8::ReadData(fileName.toStdString());
 
-    m_Emulator.cpu()->Reset();
-    m_Emulator.cpu()->Start();
-    m_Emulator.video()->ClearBuffer();
-
+    m_Emulator.Reset();
     m_Emulator.Load(data);
+    m_Emulator.Start();
 }
 
 void EmulatorScreen::updateEmulator()
@@ -136,5 +148,35 @@ void EmulatorScreen::execInstruction()
 {
     if(!m_Emulator.cpu()->is_paused() && m_Emulator.cpu()->is_debugging()) {
         m_Emulator.cpu()->Step();
+    }
+}
+
+void EmulatorScreen::setupKeyMapping()
+{
+
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_1, 1));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_2, 2));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_3, 3));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_4, 0xC));
+
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_Q, 4));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_W, 5));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_E, 6));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_R, 0xD));
+
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_A, 7));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_S, 8));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_D, 9));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_F, 0xE));
+
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_Z, 0xA));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_X, 0));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_C, 0xB));
+    m_KeyMapping.insert(std::make_pair<>(Qt::Key_V, 0xF));
+
+    m_KeyCallbackMapping.insert(std::make_pair<>(Qt::Key_N, [this](unsigned char key, bool isPressed) { execInstruction(); }));
+
+    for(const auto &pair : m_KeyMapping) {
+        m_KeyCallbackMapping.insert(std::make_pair<>(pair.first, [this](unsigned char key, bool isPressed) { m_Emulator.SetKeyState(key, isPressed); }));
     }
 }

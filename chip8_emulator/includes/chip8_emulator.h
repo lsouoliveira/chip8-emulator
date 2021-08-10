@@ -21,6 +21,9 @@ public:
     void Init();
     void Update(double deltaTime);
 	void Load(const std::vector<unsigned char>& buffer);
+    void SetKeyState(unsigned char key, bool isPressed);
+    void Reset();
+    void Start();
     CPU* cpu();
     Video* video();
 };

@@ -16,8 +16,7 @@ Chip8Emulator::~Chip8Emulator()
 
 void Chip8Emulator::Init()
 {
-	video_->ClearBuffer();
-	cpu_->Init();
+    Reset();
 }
 
 void Chip8Emulator::Update(double deltaTime)
@@ -38,6 +37,22 @@ CPU* Chip8Emulator::cpu()
 Video* Chip8Emulator::video()
 {
     return video_;
+}
+
+void Chip8Emulator::SetKeyState(unsigned char key, bool isPressed)
+{
+    cpu_->SetKeyState(key, isPressed);
+}
+
+void Chip8Emulator::Reset()
+{
+    cpu_->Reset();
+    video_->ClearBuffer();
+}
+
+void Chip8Emulator::Start()
+{
+    cpu_->Start();
 }
 
 }

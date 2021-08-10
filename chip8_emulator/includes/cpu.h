@@ -46,7 +46,6 @@ private:
 public:
     CPU(Video* video);
 	~CPU();
-    void Init();
     void EmulateCycles(int numCycles);
 	void Update(double deltaTime);
 	void UpdateTimers();
@@ -59,6 +58,7 @@ public:
     void Reset();
     void SetDebug(bool enabled);
     bool is_debugging();
+    void SetKeyState(unsigned char key, bool isPressed);
 };
 
 }

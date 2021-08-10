@@ -6,6 +6,8 @@
 #include <chrono>
 #include <ctime>
 #include <cmath>
+#include <unordered_map>
+#include <functional>
 
 using std::chrono::duration_cast;
 using std::chrono::milliseconds;
@@ -43,6 +45,7 @@ signals:
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
 private:
     void setupPalette();
@@ -52,6 +55,7 @@ private:
     void updateScreen(double deltaTime);
     void drawScreen(QPainter& painter);
     void execInstruction();
+    void setupKeyMapping();
 
     Chip8::Chip8Emulator m_Emulator;
     QTimer *m_Timer;
@@ -59,6 +63,8 @@ private:
     double m_LastTimestamp;
     double m_UpdateCounter;
     bool m_IsDebbuging;
+    std::unordered_map<unsigned char, std::function<void(unsigned char key, bool isPressed)>> m_KeyCallbackMapping;
+    std::unordered_map<unsigned char, unsigned char> m_KeyMapping;
 };
 
 #endif // EMULATORSCREEN_H

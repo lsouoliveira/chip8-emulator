@@ -30,11 +30,6 @@ CPU::~CPU()
 	delete instruction_map_;
 }
 
-void CPU::Init()
-{
-    Reset();
-}
-
 void CPU::FetchOpcode()
 {
 	state_.opcode = state_.memory[state_.pc] << 8 | state_.memory[state_.pc + 1];
@@ -154,6 +149,13 @@ void CPU::Step()
 bool CPU::is_debugging()
 {
     return is_debug_enabled_;
+}
+
+void CPU::SetKeyState(unsigned char key, bool isPressed)
+{
+    if(key >= 0x0 && key <= 0xF) {
+        state_.key[key] = (isPressed ? 1 : 0);
+    }
 }
 
 }
