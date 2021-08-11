@@ -11,6 +11,8 @@ namespace Chip8
 
 class Instructions {
 private:
+    static unsigned short ExtractVx(unsigned short opcode);
+    static unsigned short ExtractConstant(unsigned short opcode, unsigned char size);
 public:
     static void AddConstant(CPUState* state);
     static void AndRegister(CPUState* state);
@@ -29,6 +31,8 @@ public:
     static void SkipIfEqual(CPUState* state);
     static void SkipIfKeyNotPressed(CPUState* state);
     static void FontSpriteLocation(CPUState* state);
+    static void StoreRegister(CPUState* state);
+    static void SNE_4xkk(CPUState* state);
 };
 
 }

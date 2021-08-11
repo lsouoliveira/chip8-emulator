@@ -229,5 +229,45 @@ TEST(SpriteLocationTest, ShouldPointToFontSpriteLocation) {
     EXPECT_EQ(state.i, 0xC * 5);
 }
 
+TEST(StoreRegisterTest, ShouldStoreVyInVx) {
+    CPUState state;
+    unsigned short opcode = 0x8010;
 
+    state.opcode = opcode;
+    state.v[0] = 1;
+    state.v[1] = 2;
 
+    Instructions::StoreRegister(&state);
+
+    EXPECT_EQ(state.v[0], state.v[1]);
+}
+
+TEST(SNE_4xkkTest, ShouldSkipNextInstructionIfVxIsDifferentThanKk) {
+    CPUState state;
+    unsigned short opcode = 0x4000;
+    unsigned short pc;
+
+    state.opcode = opcode;
+    state.pc = 0x200;
+    state.v[0] = 1;
+    pc = state.pc;
+
+    Instructions::SNE_4xkk(&state);
+
+    EXPECT_EQ(state.pc, pc + 2);
+}
+
+TEST(SNE_4xkkTest, ShouldNotSkipNextInstructionIfVxIsEqualToKk) {
+    CPUState state;
+    unsigned short opcode = 0x4000;
+    unsigned short pc;
+
+    state.opcode = opcode;
+    state.pc = 0x200;
+    state.v[0] = 0;
+    pc = state.pc;
+
+    Instructions::SNE_4xkk(&state);
+
+    EXPECT_EQ(state.pc, pc);
+}

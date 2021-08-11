@@ -23,6 +23,8 @@ CPU::CPU(Video* video)
     instruction_map_->Add(0xc000, BIND_INSTRUCTION_CALLBACK(Instructions::RandomNumber));
     instruction_map_->Add(0xe0a1, BIND_INSTRUCTION_CALLBACK(Instructions::SkipIfKeyNotPressed));
     instruction_map_->Add(0x8002, BIND_INSTRUCTION_CALLBACK(Instructions::AndRegister));
+    instruction_map_->Add(0x8000, BIND_INSTRUCTION_CALLBACK(Instructions::StoreRegister));
+    instruction_map_->Add(0x4000, BIND_INSTRUCTION_CALLBACK(Instructions::SNE_4xkk));
 
 	state_.video = video;
 }

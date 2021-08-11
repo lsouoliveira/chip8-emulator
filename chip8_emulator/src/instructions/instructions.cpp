@@ -2,6 +2,22 @@
 
 namespace Chip8
 {
+    unsigned short Instructions::ExtractVx(unsigned short opcode)
+    {
+        return (opcode & 0x0F00) >> 8;
+    }
+
+    unsigned short Instructions::ExtractConstant(unsigned short opcode, unsigned char size)
+    {
+        unsigned short mask = 0;
+
+        for(int i = 0; i < size; i++) {
+            mask = (mask << 4) + 0xF;
+        }
+
+        return opcode & mask;
+    }
+
     void Instructions::AddConstant(CPUState* state){
         int targetRegister = (state->opcode & 0x0F00) >> 8;
         int constant = state->opcode & 0x00FF;
@@ -152,6 +168,24 @@ namespace Chip8
         int targetRegister = (state->opcode & 0x0F00) >> 8;
 
             state->i = state->v[targetRegister] * 5;
+    }
+
+    void Instructions::StoreRegister(CPUState *state)
+    {
+        int targetRegisterA = (state->opcode & 0x0F00) >> 8;
+        int targetRegisterB = (state->opcode & 0x00F0) >> 4;
+
+        state->v[targetRegisterA] = state->v[targetRegisterB];
+    }
+
+    void Instructions::SNE_4xkk(CPUState *state)
+    {
+        unsigned short vx = ExtractVx(state->opcode);
+        unsigned short k = ExtractConstant(state->opcode, 2);
+
+        if(state->v[vx] != k) {
+            state->pc += 2;
+        }
     }
 
 }
