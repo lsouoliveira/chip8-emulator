@@ -87,10 +87,10 @@ void InstructionMap::Execute(CPUState* state)
                     PrintInstructionNotImplemented(state->opcode);
                     break;
                 case 0x0004:
-                    PrintInstructionNotImplemented(state->opcode);
+                    Instructions::ADD_8xy4(state);
                     break;
                 case 0x0005:
-                    PrintInstructionNotImplemented(state->opcode);
+                    Instructions::SUB_8xy5(state);
                     break;
                 case 0x0006:
                     PrintInstructionNotImplemented(state->opcode);

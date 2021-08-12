@@ -283,3 +283,59 @@ TEST(LD_fx18, ShouldSetSoundTimerToRegisterValue) {
 
     EXPECT_EQ(state.soundTimer, 20);
 }
+
+TEST(ADD_8xy4Test, ShouldSumNumbersWithoutSettingCarryFlag) {
+    CPUState state;
+    unsigned short opcode = 0x8014;
+
+    state.v[0] = 36;
+    state.v[1] = 25;
+    state.opcode = opcode;
+
+    Instructions::ADD_8xy4(&state);
+
+    EXPECT_EQ(state.v[0], 36 + 25);
+    EXPECT_EQ(state.v[0xF], 0);
+}
+
+TEST(ADD_8xy4Test, ShouldSumNumbersSettingCarryFlag) {
+    CPUState state;
+    unsigned short opcode = 0x8014;
+
+    state.v[0] = 255;
+    state.v[1] = 1;
+    state.opcode = opcode;
+
+    Instructions::ADD_8xy4(&state);
+
+    EXPECT_EQ(state.v[0], 0);
+    EXPECT_EQ(state.v[0xF], 1);
+}
+
+TEST(SUB_8xy5Test, ShouldSubNumbersAndSetVfWhenVxIsBiggerThanVy) {
+    CPUState state;
+    unsigned short opcode = 0x8015;
+
+    state.v[0] = 46;
+    state.v[1] = 32;
+    state.opcode = opcode;
+
+    Instructions::SUB_8xy5(&state);
+
+    EXPECT_EQ(state.v[0], 46 - 32);
+    EXPECT_EQ(state.v[0xF], 1);
+}
+
+TEST(SUB_8xy5Test, SShouldSubNumbersAndNotSetVfWhenVxIsSmallerThanVy) {
+    CPUState state;
+    unsigned short opcode = 0x8015;
+
+    state.v[0] = 32;
+    state.v[1] = 46;
+    state.opcode = opcode;
+
+    Instructions::SUB_8xy5(&state);
+
+    EXPECT_EQ(state.v[0], (unsigned char) (32 - 46));
+    EXPECT_EQ(state.v[0xF], 0);
+}

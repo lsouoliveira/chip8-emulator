@@ -218,4 +218,24 @@ namespace Chip8
         state->soundTimer = state->v[vx];
     }
 
+    void Instructions::ADD_8xy4(CPUState *state)
+    {
+       unsigned short vx = ExtractVx(state->opcode);
+       unsigned short vy = ExtractVy(state->opcode);
+       unsigned short sum = state->v[vx] + state->v[vy];
+
+       state->v[vx] = sum & 0x00FF;
+       state->v[0xF] = (sum >> 8) & 1;
+    }
+
+    void Instructions::SUB_8xy5(CPUState *state)
+    {
+       unsigned short vx = ExtractVx(state->opcode);
+       unsigned short vy = ExtractVy(state->opcode);
+       unsigned short sub = state->v[vx] - state->v[vy];
+
+       state->v[0xF] = (state->v[vx] > state->v[vy] ? 1 : 0);
+       state->v[vx] = sub & 0x00FF;
+    }
+
 }

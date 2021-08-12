@@ -35,6 +35,8 @@ public:
     static void LD_8xy0(CPUState* state);
     static void SNE_4xkk(CPUState* state);
     static void LD_fx18(CPUState* state);
+    static void ADD_8xy4(CPUState* state);
+    static void SUB_8xy5(CPUState* state);
 };
 
 }
