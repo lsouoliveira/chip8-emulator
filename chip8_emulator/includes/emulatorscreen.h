@@ -27,7 +27,6 @@ using std::chrono::system_clock;
 // #include <spdlog/spdlog.h>
 
 #include <chip8_emulator.h>
-#include <utils.h>
 
 class EmulatorScreen : public QFrame
 {
@@ -35,7 +34,7 @@ class EmulatorScreen : public QFrame
 public:
     explicit EmulatorScreen(QWidget *parent = nullptr);
 
-    void load(QString fileName);
+    void load(std::vector<unsigned char> data);
 
 public slots:
     void toggleDebugging();

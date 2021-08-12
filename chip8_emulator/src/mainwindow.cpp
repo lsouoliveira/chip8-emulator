@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     centralizeWindow();
 
     m_EmulatorScreen = new EmulatorScreen(this);
+    m_PreferencesDialog = new PreferencesDialog(this);
 
     createActions();
     createMenus();
@@ -43,9 +44,22 @@ void MainWindow::load()
     if(!fileName.isEmpty()) {
         QDir dir;
         settings.setValue("mainwindow/romPath", dir.absoluteFilePath(fileName));
-    }
 
-    m_EmulatorScreen->load(fileName);
+        try {
+            std::vector<unsigned char> data = Chip8::ReadData(fileName.toStdString());
+
+            m_EmulatorScreen->load(data);
+        } catch(const std::exception& e) {
+            QMessageBox messageBox;
+            messageBox.critical(0, "Error", tr("Invalid file"));
+            messageBox.show();
+        }
+    }
+}
+
+void MainWindow::openPreferences()
+{
+    m_PreferencesDialog->show();
 }
 
 void MainWindow::createMenus()
@@ -57,10 +71,15 @@ void MainWindow::createMenus()
 
     toolsMenu = menuBar()->addMenu(tr("Tools"));
     toolsMenu->addAction(enableDebugAction);
+    toolsMenu->addAction(openPreferencesAction);
 }
 
 void MainWindow::createActions()
 {
+    openPreferencesAction = new QAction(tr("Preferences"), this);
+    openPreferencesAction->setStatusTip(tr("Open preferences"));
+    connect(openPreferencesAction, &QAction::triggered, this, &MainWindow::openPreferences);
+
     loadAction = new QAction(tr("Load"), this);
     loadAction->setStatusTip(tr("Load a ROM"));
     connect(loadAction, &QAction::triggered, this, &MainWindow::load);

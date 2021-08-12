@@ -8,8 +8,11 @@
 #include <QDesktopWidget>
 #include <QFileDialog>
 #include <QSettings>
+#include <QMessageBox>
 
 #include <emulatorscreen.h>
+#include <preferencesdialog.h>
+#include <utils.h>
 
 class MainWindow : public QMainWindow
 {
@@ -23,6 +26,7 @@ protected:
 private slots:
     void exit();
     void load();
+    void openPreferences();
 
 private:
     void createMenus();
@@ -31,10 +35,12 @@ private:
 
     QMenu *fileMenu;
     QMenu *toolsMenu;
+    QAction *openPreferencesAction;
     QAction *loadAction;
     QAction *exitAction;
     QAction *enableDebugAction;
     EmulatorScreen *m_EmulatorScreen;
+    PreferencesDialog *m_PreferencesDialog;
 
 public:
     MainWindow(QWidget *parent = nullptr);

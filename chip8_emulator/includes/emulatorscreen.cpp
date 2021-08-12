@@ -27,8 +27,6 @@ EmulatorScreen::EmulatorScreen(QWidget *parent) : QFrame(parent)
 
     m_Emulator.Init();
     m_IsDebbuging = false;
-
-    toggleDebugging();
 }
 
 void EmulatorScreen::paintEvent(QPaintEvent *event)
@@ -70,10 +68,8 @@ void EmulatorScreen::setupPalette()
     setPalette(pal);
 }
 
-void EmulatorScreen::load(QString fileName)
+void EmulatorScreen::load(const std::vector<unsigned char> data)
 {
-    std::vector<unsigned char> data = Chip8::ReadData(fileName.toStdString());
-
     m_Emulator.Reset();
     m_Emulator.Load(data);
     m_Emulator.Start();

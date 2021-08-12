@@ -28,6 +28,7 @@ SOURCES += \
     src/instructions/instructions.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
+    src/preferencesdialog.cpp \
     src/utils.cpp \
     src/video.cpp \
 
@@ -40,5 +41,6 @@ HEADERS += \
     includes/instructions/instruction_map.h \
     includes/instructions/instructions.h \
     includes/mainwindow.h \
+    includes/preferencesdialog.h \
     includes/utils.h \
     includes/video.h

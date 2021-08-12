@@ -147,8 +147,6 @@ namespace Chip8
         unsigned short k = ExtractConstant(state->opcode, 2);
         unsigned short randomNumber = std::rand() % 256;
 
-        std::cout << "random" << randomNumber << std::endl;
-
         state->v[vx] = randomNumber & k;
     }
 

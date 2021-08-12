@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.1, 2021-08-11T21:23:47. -->
+<!-- Written by QtCreator 4.14.1, 2021-08-12T15:49:54. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -66,6 +66,7 @@
    </valuemap>
    <valuemap type="QVariantMap" key="AutoTest.CheckStates">
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ADD_7xkkTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ADD_8xy4Test">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:AND_8xy2Test">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:CALLTest">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:CLSTest">Checked</value>
@@ -81,6 +82,8 @@
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SE_3xkkTest">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SKNP_exa1Test">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SNE_4xkkTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SShouldSubNumbersAndNotSetVfWhenVxIsSmallerThanVy">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SUB_8xy5Test">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldAddConstantToRegister">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldClearScreenBuffer">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldLoadRegisterIWithCorrectValue">Checked</value>
@@ -98,6 +101,9 @@
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSkipNextInstructionIfVxEqualToKk">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSkipNextInstructionIfVxIsDifferentThanKk">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldStoreVyInVx">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSubNumbersAndSetVfWhenVxIsBiggerThanVy">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSumNumbersSettingCarryFlag">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSumNumbersWithoutSettingCarryFlag">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldWriteAddressSequenceIntoRegisters">Checked</value>
    </valuemap>
    <value type="int" key="AutoTest.RunAfterBuild">0</value>

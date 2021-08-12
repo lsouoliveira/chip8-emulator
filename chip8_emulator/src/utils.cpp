@@ -8,6 +8,10 @@ std::vector<unsigned char> ReadData(const std::string& filename)
 	size_t filesize;
 	std::ifstream file(filename, std::ios::binary);
 
+    if(!file) {
+        throw std::runtime_error("Invalid file");
+    }
+
 	file.seekg(0, std::ios::end);
 	filesize = file.tellg();
 	file.seekg(0, std::ios::beg);
