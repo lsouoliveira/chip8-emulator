@@ -7,6 +7,11 @@ namespace Chip8
         return (opcode & 0x0F00) >> 8;
     }
 
+    unsigned short Instructions::ExtractVy(unsigned short opcode)
+    {
+        return (opcode & 0x00F0) >> 4;
+    }
+
     unsigned short Instructions::ExtractConstant(unsigned short opcode, unsigned char size)
     {
         unsigned short mask = 0;
@@ -18,21 +23,21 @@ namespace Chip8
         return opcode & mask;
     }
 
-    void Instructions::AddConstant(CPUState* state){
-        int targetRegister = (state->opcode & 0x0F00) >> 8;
-        int constant = state->opcode & 0x00FF;
+    void Instructions::ADD_7xkk(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
+        unsigned short k = ExtractConstant(state->opcode, 3);
 
-        state->v[targetRegister] += constant;
+        state->v[vx] += k;
     }
 
-    void Instructions::AndRegister(CPUState* state){
-        int targetRegisterA = (state->opcode & 0x0F00) >> 8;
-        int targetRegisterB = (state->opcode & 0x00F0) >> 4;
+    void Instructions::AND_8xy2(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
+        unsigned short vy = ExtractVy(state->opcode);
 
-        state->v[targetRegisterA] = state->v[targetRegisterA] & state->v[targetRegisterB];
+        state->v[vx] = state->v[vx] & state->v[vy];
     }
 
-    void Instructions::Bcd(CPUState* state){
+    void Instructions::LD_fx33(CPUState* state){
         int targetV = (state->opcode & 0x0F00) >> 8;
         std::string targetNumber = std::to_string(state->v[targetV]);
 
@@ -45,19 +50,19 @@ namespace Chip8
         state->memory[state->i + 2] = targetNumber[2] - '0';
     }
 
-    void Instructions::CallAddr(CPUState* state){
-        unsigned short targetAddress = state->opcode & 0x0FFF;
+    void Instructions::CALL(CPUState* state){
+        unsigned short k = ExtractConstant(state->opcode, 3);
 
-            state->stack[state->sp] = state->pc;
-            state->sp++;
-            state->pc = targetAddress;
+        state->stack[state->sp] = state->pc;
+        state->sp++;
+        state->pc = k;
     }
 
-    void Instructions::ClearScreen(CPUState* state){
+    void Instructions::CLS(CPUState* state){
         state->video->ClearBuffer();
     }
 
-    void Instructions::DrawSprite(CPUState* state){
+    void Instructions::DRW_dxyn(CPUState* state){
         unsigned char vx;
             unsigned char vy;
             unsigned char spriteHeight;
@@ -71,14 +76,35 @@ namespace Chip8
             x = state->v[vx];
             y = state->v[vy];
 
+            if(x < 0) {
+                x = 64 - 8;
+            }
 
+            if(x >= 64) {
+                x = 0;
+            }
+
+            if(y < 0) {
+                y = 32 - 8;
+            }
+
+            if(y >= 32) {
+                y = 0;
+            }
+
+            state->v[0xF] = 0;
 
             for (int i = 0; i < spriteHeight; ++i) {
                 unsigned char spriteLine = state->memory[state->i + i];
 
                 for(int j = 0; j < 8; j++) {
-                    int videoX = (x + j) % 64;
-                    int videoY = (y + i) % 32;
+                    int videoX = (x + j);
+                    int videoY = (y + i);
+
+                    if(videoX >= 64 || videoY >= 32 || videoX < 0 || videoY < 0) {
+                        continue;
+                    }
+
                     int pixelPos = 64 * (videoY) + videoX;
                     unsigned char pixelColor = ((spriteLine >> (7 - j)) & 1);
                     unsigned char currPixelColor = state->video->GetBuffer()[pixelPos];
@@ -93,42 +119,40 @@ namespace Chip8
             }
     }
 
-    void Instructions::Jump(CPUState* state){
-        int constant = (state->opcode & 0x0FFF);
-        state->pc = constant;
+    void Instructions::JP(CPUState* state){
+        unsigned short k = ExtractConstant(state->opcode, 3);
+        state->pc = k;
     }
 
-    void Instructions::LoadIndexRegister(CPUState* state){
-        int constant;
-        constant = state->opcode & 0x0FFF;
-        state->i = constant;
+    void Instructions::LD_annn(CPUState* state){
+        unsigned short k = ExtractConstant(state->opcode, 3);
+        state->i = k;
     }
 
-    void Instructions::LoadRegisterWithConstant(CPUState* state){
-        int targetRegister;
-            int constant;
+    void Instructions::LD_6xkk(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
+        unsigned short k = ExtractConstant(state->opcode, 2);
 
-            targetRegister = (state->opcode & 0x0F00) >> 8;
-            constant = state->opcode & 0x00FF;
-
-            state->v[targetRegister] = constant;
+        state->v[vx] = k;
     }
 
-    void Instructions::MoveDelayTimer(CPUState* state){
-        int targetRegister = (state->opcode & 0x0F00) >> 8;
+    void Instructions::LD_fx07(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
 
-            state->v[targetRegister] = state->delayTimer;
+        state->v[vx] = state->delayTimer;
     }
 
-    void Instructions::RandomNumber(CPUState* state){
-        int targetRegister = (state->opcode & 0x0F00) >> 8;
-            unsigned char constant = (state->opcode & 0x00FF);
-            unsigned randomNumber = std::rand() % 256;
+    void Instructions::RND_cxkk(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
+        unsigned short k = ExtractConstant(state->opcode, 2);
+        unsigned short randomNumber = std::rand() % 256;
 
-            state->v[targetRegister] = randomNumber & constant;
+        std::cout << "random" << randomNumber << std::endl;
+
+        state->v[vx] = randomNumber & k;
     }
 
-    void Instructions::ReadSequenceIntoRegisters(CPUState* state){
+    void Instructions::LD_fx65(CPUState* state){
         int targetRegister = (state->opcode & 0x0F00) >> 8;
 
             for(int i = 0; i <= targetRegister; i++) {
@@ -136,46 +160,46 @@ namespace Chip8
             }
     }
 
-    void Instructions::Ret(CPUState* state){
+    void Instructions::RET(CPUState* state){
         state->sp -= 1;
             state->pc = state->stack[state->sp];
     }
 
-    void Instructions::SetDelayTimer(CPUState* state){
-        int targetRegister = (state->opcode & 0x0F00) >> 8;
+    void Instructions::LD_fx15(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
 
-        state->delayTimer = state->v[targetRegister];
+        state->delayTimer = state->v[vx];
     }
 
-    void Instructions::SkipIfEqual(CPUState* state){
-        int targetRegister = (state->opcode & 0x0F00) >> 8;
-            int constant = (state->opcode & 0x00FF);
+    void Instructions::SE_3xkk(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
+        unsigned short k = ExtractConstant(state->opcode, 2);
 
-            if(state->v[targetRegister] == constant) {
-                state->pc += 2;
-            }
-    }
-
-    void Instructions::SkipIfKeyNotPressed(CPUState* state) {
-        int targetRegister = (state->opcode & 0x0F00) >> 8;
-
-        if(state->key[state->v[targetRegister]] == 0) {
+        if(state->v[vx] == k) {
             state->pc += 2;
         }
     }
 
-    void Instructions::FontSpriteLocation(CPUState* state){
-        int targetRegister = (state->opcode & 0x0F00) >> 8;
+    void Instructions::SKNP_exa1(CPUState* state) {
+        unsigned short vx = ExtractVx(state->opcode);
 
-            state->i = state->v[targetRegister] * 5;
+        if(state->key[state->v[vx]] == 0) {
+            state->pc += 2;
+        }
     }
 
-    void Instructions::StoreRegister(CPUState *state)
-    {
-        int targetRegisterA = (state->opcode & 0x0F00) >> 8;
-        int targetRegisterB = (state->opcode & 0x00F0) >> 4;
+    void Instructions::LD_fx29(CPUState* state){
+        unsigned short vx = ExtractVx(state->opcode);
 
-        state->v[targetRegisterA] = state->v[targetRegisterB];
+        state->i = state->v[vx] * 5;
+    }
+
+    void Instructions::LD_8xy0(CPUState *state)
+    {
+        unsigned short vx = ExtractVx(state->opcode);
+        unsigned short vy = ExtractVy(state->opcode);
+
+        state->v[vx] = state->v[vy];
     }
 
     void Instructions::SNE_4xkk(CPUState *state)
@@ -186,6 +210,12 @@ namespace Chip8
         if(state->v[vx] != k) {
             state->pc += 2;
         }
+    }
+
+    void Instructions::LD_fx18(CPUState *state)
+    {
+        unsigned short vx = ExtractVx(state->opcode);
+        state->soundTimer = state->v[vx];
     }
 
 }

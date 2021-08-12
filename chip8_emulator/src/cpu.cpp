@@ -5,33 +5,11 @@ namespace Chip8 {
 CPU::CPU(Video* video)
     : is_paused_(true)
 {
-	instruction_map_ = new InstructionMap(std::vector<unsigned short>{0xFFFF, 0xF0FF, 0xF00F, 0xF000});
-    instruction_map_->Add(0x00E0, BIND_INSTRUCTION_CALLBACK(Instructions::ClearScreen));
-    instruction_map_->Add(0x6000, BIND_INSTRUCTION_CALLBACK(Instructions::LoadRegisterWithConstant));
-    instruction_map_->Add(0xa000, BIND_INSTRUCTION_CALLBACK(Instructions::LoadIndexRegister));
-    instruction_map_->Add(0xd000, BIND_INSTRUCTION_CALLBACK(Instructions::DrawSprite));
-    instruction_map_->Add(0x2000, BIND_INSTRUCTION_CALLBACK(Instructions::CallAddr));
-    instruction_map_->Add(0xf033, BIND_INSTRUCTION_CALLBACK(Instructions::Bcd));
-    instruction_map_->Add(0xf065, BIND_INSTRUCTION_CALLBACK(Instructions::ReadSequenceIntoRegisters));
-    instruction_map_->Add(0xf029, BIND_INSTRUCTION_CALLBACK(Instructions::FontSpriteLocation));
-    instruction_map_->Add(0x7000, BIND_INSTRUCTION_CALLBACK(Instructions::AddConstant));
-    instruction_map_->Add(0x00ee, BIND_INSTRUCTION_CALLBACK(Instructions::Ret));
-    instruction_map_->Add(0xf015, BIND_INSTRUCTION_CALLBACK(Instructions::SetDelayTimer));
-    instruction_map_->Add(0xf007, BIND_INSTRUCTION_CALLBACK(Instructions::MoveDelayTimer));
-    instruction_map_->Add(0x3000, BIND_INSTRUCTION_CALLBACK(Instructions::SkipIfEqual));
-    instruction_map_->Add(0x1000, BIND_INSTRUCTION_CALLBACK(Instructions::Jump));
-    instruction_map_->Add(0xc000, BIND_INSTRUCTION_CALLBACK(Instructions::RandomNumber));
-    instruction_map_->Add(0xe0a1, BIND_INSTRUCTION_CALLBACK(Instructions::SkipIfKeyNotPressed));
-    instruction_map_->Add(0x8002, BIND_INSTRUCTION_CALLBACK(Instructions::AndRegister));
-    instruction_map_->Add(0x8000, BIND_INSTRUCTION_CALLBACK(Instructions::StoreRegister));
-    instruction_map_->Add(0x4000, BIND_INSTRUCTION_CALLBACK(Instructions::SNE_4xkk));
-
-	state_.video = video;
+    state_.video = video;
 }
 
 CPU::~CPU()
 {
-	delete instruction_map_;
 }
 
 void CPU::FetchOpcode()
@@ -46,14 +24,9 @@ void CPU::FetchOpcode()
 
 void CPU::EmulateInstruction()
 {
-    auto instruction = instruction_map_->Get(state_.opcode);
-    if(instruction) {
-        std::cout << "Instruction found 0x" << std::hex << state_.opcode << std::endl;
-        instruction(&state_);
-	} else if(state_.opcode != 0) {
-        std::cout << "Instruction not found 0x" << std::hex << state_.opcode << std::endl;
-    }
+    InstructionMap::Execute(&state_);
 }
+
 
 void CPU::EmulateCycles(int numCycles)
 {
@@ -154,9 +127,7 @@ void CPU::Step()
     FetchOpcode();
     EmulateInstruction();
 }
-
-bool CPU::is_debugging()
-{
+ bool CPU::is_debugging() {
     return is_debug_enabled_;
 }
 

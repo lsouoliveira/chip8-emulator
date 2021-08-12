@@ -21,7 +21,6 @@ namespace Chip8 {
 class CPU {
 private:
 	CPUState state_;
-	InstructionMap* instruction_map_;
     bool is_paused_;
     bool is_debug_enabled_;
 	

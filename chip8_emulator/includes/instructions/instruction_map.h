@@ -5,25 +5,25 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
+#include <sstream>
+#include <algorithm>
+#include <cctype>
 
 #include <cpu_state.h>
+#include <instructions/instructions.h>
 
-#define BIND_INSTRUCTION_CALLBACK(f) [](CPUState* state) { f(state); }
-#define INSTRUCTION_CALLBACK std::function<void(CPUState*)>
+#define INSTRUCTION_NOT_FOUND(x) (std::cout << "Instruction not found 0x" << std::hex << std::to_string(x) << std::endl);
+#define INSTRUCTION_NOT_IMPLEMENTED(x) (std::cout << "Instruction not implemented 0x" << std::hex << std::to_string(x) << std::endl);
 
 namespace Chip8
 {
 
 class InstructionMap
 {
-private:
-    std::unordered_map<unsigned short, INSTRUCTION_CALLBACK> map_;
-	std::vector<unsigned short> search_masks_;
 public:
-	InstructionMap(std::vector<unsigned short> searchMasks);
-	~InstructionMap();
-    void Add(unsigned short opcode, std::function<void(CPUState*)>);
-    INSTRUCTION_CALLBACK Get(const unsigned short &opcode);
+    static void PrintInstructionNotFound(unsigned short x);
+    static void PrintInstructionNotImplemented(unsigned short x);
+    static void Execute(CPUState* state);
 };
 
 }

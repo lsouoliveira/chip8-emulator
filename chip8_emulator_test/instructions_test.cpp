@@ -6,19 +6,19 @@
 
 using namespace Chip8;
 
-TEST(AddConstantTest, ShouldAddConstantToRegister) {
+TEST(ADD_7xkkTest, ShouldAddConstantToRegister) {
     CPUState state;
     unsigned short opcode = 0x7055;
 
     state.v[0] = 20;
     state.opcode = opcode;
 
-    Instructions::AddConstant(&state);
+    Instructions::ADD_7xkk(&state);
 
     EXPECT_EQ(state.v[0], 20 + 0x55);
 }
 
-TEST(AndRegistersTest, ShouldPerformBitwiseAndBetweenRegisters) {
+TEST(AND_8xy2Test, ShouldPerformBitwiseAndBetweenRegisters) {
     CPUState state;
     unsigned short opcode = 0x8012;
     unsigned char a = 228;
@@ -29,12 +29,12 @@ TEST(AndRegistersTest, ShouldPerformBitwiseAndBetweenRegisters) {
     state.v[0] = a;
     state.v[1] = b;
 
-    Instructions::AndRegister(&state);
+    Instructions::AND_8xy2(&state);
 
     EXPECT_EQ(state.v[0], a & b);
 }
 
-TEST(BcdTest, ShouldSavePCInStackAndIncrementSP) {
+TEST(LD_fx33Test, ShouldSavePCInStackAndIncrementSP) {
     CPUState state;
     unsigned short opcode = 0xf033;
 
@@ -42,7 +42,7 @@ TEST(BcdTest, ShouldSavePCInStackAndIncrementSP) {
     state.v[0] = 123;
     state.i = 0x200;
 
-    Instructions::Bcd(&state);
+    Instructions::LD_fx33(&state);
 
     EXPECT_EQ(state.memory[state.i], 1);
     EXPECT_EQ(state.memory[state.i + 1], 2);
@@ -50,7 +50,7 @@ TEST(BcdTest, ShouldSavePCInStackAndIncrementSP) {
 }
 
 
-TEST(CallAddrTest, ShouldSavePCInStackAndIncrementSP) {
+TEST(CALLTest, ShouldSavePCInStackAndIncrementSP) {
     CPUState state;
     unsigned short opcode = 0x2222;
     state.opcode = opcode;
@@ -64,14 +64,14 @@ TEST(CallAddrTest, ShouldSavePCInStackAndIncrementSP) {
 
     state.pc += 2;
 
-    Instructions::CallAddr(&state);
+    Instructions::CALL(&state);
 
     EXPECT_EQ(state.sp, 1);
     EXPECT_EQ(state.stack[0], 0x202);
     EXPECT_EQ(state.pc, 0x222);
 }
 
-TEST(ClearScreenInstructionTest, ShouldClearScreenBuffer) {
+TEST(CLSTest, ShouldClearScreenBuffer) {
     CPUState state;
     Video video;
     state.video = &video;
@@ -80,26 +80,26 @@ TEST(ClearScreenInstructionTest, ShouldClearScreenBuffer) {
         state.video->GetBuffer()[i] = 1;
     }
 
-    Instructions::ClearScreen(&state);
+    Instructions::CLS(&state);
 
     for (int i = 0; i < Chip8::VIDEO_BUFFER_SIZE; ++i) {
         EXPECT_EQ(state.video->GetBuffer()[i], 0);
     }
 }
 
-TEST(LoadIndexRegisterTest, ShouldLoadRegisterIWithCorrectValue) {
+TEST(LD_annnTest, ShouldLoadRegisterIWithCorrectValue) {
     CPUState state;
     unsigned short opcode = 0xAFFF;
 
     state.opcode = opcode;
     state.i = 0;
 
-    Instructions::LoadIndexRegister(&state);
+    Instructions::LD_annn(&state);
 
     EXPECT_EQ(state.i, 0xFFF);
 }
 
-TEST(LoadRegisterWithConstant, ShouldLoadRegisterWithCorrectValue) {
+TEST(LD_6xkkTest, ShouldLoadRegisterWithCorrectValue) {
     CPUState state;
     unsigned short opcode = 0x64FF;
 
@@ -108,24 +108,24 @@ TEST(LoadRegisterWithConstant, ShouldLoadRegisterWithCorrectValue) {
         state.v[i] = 0;
     }
 
-    Instructions::LoadRegisterWithConstant(&state);
+    Instructions::LD_6xkk(&state);
 
     EXPECT_EQ(state.v[4], 0x00FF);
 }
 
-TEST(MoveDelayTimerTest, ShouldMoveDelayTimerToRegister) {
+TEST(LD_fx07Test, ShouldMoveDelayTimerToRegister) {
     CPUState state;
     unsigned short opcode = 0x7007;
     state.opcode = opcode;
 
     state.delayTimer = 60;
 
-    Instructions::MoveDelayTimer(&state);
+    Instructions::LD_fx07(&state);
 
     EXPECT_EQ(state.v[0], 60);
 }
 
-TEST(ReadSequenceTest, ShouldWriteAddressSequenceIntoRegisters) {
+TEST(LD_fx65Test, ShouldWriteAddressSequenceIntoRegisters) {
     CPUState state;
     unsigned short opcode = 0xf665;
 
@@ -140,26 +140,26 @@ TEST(ReadSequenceTest, ShouldWriteAddressSequenceIntoRegisters) {
     state.i = 0x200;
     state.opcode = opcode;
 
-    Instructions::ReadSequenceIntoRegisters(&state);
+    Instructions::LD_fx65(&state);
 
     for(int i = 0; i <= 6; i++) {
         EXPECT_EQ(state.v[i], i + 1);
     }
 }
 
-TEST(SetDelayTimerTest, ShouldSetDelayTimerToRegisterValue) {
+TEST(LD_fx15Test, ShouldSetDelayTimerToRegisterValue) {
     CPUState state;
     unsigned short opcode = 0x7015;
 
     state.v[0] = 20;
     state.opcode = opcode;
 
-    Instructions::SetDelayTimer(&state);
+    Instructions::LD_fx15(&state);
 
     EXPECT_EQ(state.delayTimer, 20);
 }
 
-TEST(SkipIfEqualTest, ShouldSkipNextInstructionIfVxEqualToKk) {
+TEST(SE_3xkkTest, ShouldSkipNextInstructionIfVxEqualToKk) {
     CPUState state;
     unsigned short opcode = 0x3042;
     state.opcode = opcode;
@@ -167,12 +167,12 @@ TEST(SkipIfEqualTest, ShouldSkipNextInstructionIfVxEqualToKk) {
     state.pc = 0;
     state.v[0] = 0x42;
 
-    Instructions::SkipIfEqual(&state);
+    Instructions::SE_3xkk(&state);
 
     EXPECT_EQ(state.pc, 2);
 }
 
-TEST(SkipIfEqualTest, ShouldNotSkipNextInstructionIfVxDifferentToKk) {
+TEST(SE_3xkkTest, ShouldNotSkipNextInstructionIfVxDifferentToKk) {
     CPUState state;
     unsigned short opcode = 0x3044;
     state.opcode = opcode;
@@ -180,12 +180,12 @@ TEST(SkipIfEqualTest, ShouldNotSkipNextInstructionIfVxDifferentToKk) {
     state.pc = 0;
     state.v[0] = 0x42;
 
-    Instructions::SkipIfEqual(&state);
+    Instructions::SE_3xkk(&state);
 
     EXPECT_EQ(state.pc, 0);
 }
 
-TEST(SkipIfKeyNotPressedTest, ShouldSkipNextInstructionIfKeyNotPressed) {
+TEST(SKNP_exa1Test, ShouldSkipNextInstructionIfKeyNotPressed) {
     CPUState state;
     unsigned short opcode = 0xe0a1;
     unsigned short pc;
@@ -196,12 +196,12 @@ TEST(SkipIfKeyNotPressedTest, ShouldSkipNextInstructionIfKeyNotPressed) {
     state.key[0] = 0;
     pc = state.pc + 2;
 
-    Instructions::SkipIfKeyNotPressed(&state);
+    Instructions::SKNP_exa1(&state);
 
     EXPECT_EQ(state.pc, pc);
 }
 
-TEST(SkipIfKeyNotPressedTest, ShouldNotSkipNextInstructionIfKeyIsPressed) {
+TEST(SKNP_exa1Test, ShouldNotSkipNextInstructionIfKeyIsPressed) {
     CPUState state;
     unsigned short opcode = 0xe0a1;
     unsigned short pc;
@@ -212,24 +212,24 @@ TEST(SkipIfKeyNotPressedTest, ShouldNotSkipNextInstructionIfKeyIsPressed) {
     state.key[0] = 1;
     pc = state.pc;
 
-    Instructions::SkipIfKeyNotPressed(&state);
+    Instructions::SKNP_exa1(&state);
 
     EXPECT_EQ(state.pc, pc);
 }
 
-TEST(SpriteLocationTest, ShouldPointToFontSpriteLocation) {
+TEST(LD_fx29Test, ShouldPointToFontSpriteLocation) {
     CPUState state;
     unsigned short opcode = 0xf029;
 
     state.opcode = opcode;
     state.v[0] = 0xC;
 
-    Instructions::FontSpriteLocation(&state);
+    Instructions::LD_fx29(&state);
 
     EXPECT_EQ(state.i, 0xC * 5);
 }
 
-TEST(StoreRegisterTest, ShouldStoreVyInVx) {
+TEST(LD_8xy0Test, ShouldStoreVyInVx) {
     CPUState state;
     unsigned short opcode = 0x8010;
 
@@ -237,7 +237,7 @@ TEST(StoreRegisterTest, ShouldStoreVyInVx) {
     state.v[0] = 1;
     state.v[1] = 2;
 
-    Instructions::StoreRegister(&state);
+    Instructions::LD_8xy0(&state);
 
     EXPECT_EQ(state.v[0], state.v[1]);
 }
@@ -270,4 +270,16 @@ TEST(SNE_4xkkTest, ShouldNotSkipNextInstructionIfVxIsEqualToKk) {
     Instructions::SNE_4xkk(&state);
 
     EXPECT_EQ(state.pc, pc);
+}
+
+TEST(LD_fx18, ShouldSetSoundTimerToRegisterValue) {
+    CPUState state;
+    unsigned short opcode = 0xf018;
+
+    state.v[0] = 20;
+    state.opcode = opcode;
+
+    Instructions::LD_fx18(&state);
+
+    EXPECT_EQ(state.soundTimer, 20);
 }

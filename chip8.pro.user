@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.1, 2021-08-10T23:57:24. -->
+<!-- Written by QtCreator 4.14.1, 2021-08-11T21:23:47. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -65,17 +65,22 @@
     <value type="bool" key="AutoTest.Framework.QtTest">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="AutoTest.CheckStates">
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:AddConstantTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:AndRegistersTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:BcdTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:CallAddrTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ClearScreenInstructionTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LoadIndexRegisterTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LoadRegisterWithConstant">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:MoveDelayTimerTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ReadSequenceTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ADD_7xkkTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:AND_8xy2Test">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:CALLTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:CLSTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_6xkkTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_8xy0Test">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_annnTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_fx07Test">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_fx15Test">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_fx18">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_fx29Test">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_fx33Test">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:LD_fx65Test">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SE_3xkkTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SKNP_exa1Test">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SNE_4xkkTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SetDelayTimerTest">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldAddConstantToRegister">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldClearScreenBuffer">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldLoadRegisterIWithCorrectValue">Checked</value>
@@ -88,15 +93,12 @@
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldPointToFontSpriteLocation">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSavePCInStackAndIncrementSP">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSetDelayTimerToRegisterValue">Checked</value>
+    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSetSoundTimerToRegisterValue">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSkipNextInstructionIfKeyNotPressed">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSkipNextInstructionIfVxEqualToKk">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldSkipNextInstructionIfVxIsDifferentThanKk">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldStoreVyInVx">Checked</value>
     <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:ShouldWriteAddressSequenceIntoRegisters">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SkipIfEqualTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SkipIfKeyNotPressedTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:SpriteLocationTest">Checked</value>
-    <value type="Qt::CheckState" key="/home/lucas/Github/chip8_emulator/chip8_emulator_test/instructions_test.cpp:StoreRegisterTest">Checked</value>
    </valuemap>
    <value type="int" key="AutoTest.RunAfterBuild">0</value>
    <value type="bool" key="AutoTest.UseGlobal">true</value>
@@ -124,7 +126,7 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{e4a64cb5-7602-446e-aeed-fb15b52f5a5d}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="int" key="EnableQmlDebugging">0</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/lucas/Github/build-chip8-Desktop-Debug</value>

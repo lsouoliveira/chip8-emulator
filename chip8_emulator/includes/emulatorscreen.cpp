@@ -113,8 +113,8 @@ void EmulatorScreen::updateScreen(double deltaTime)
 void EmulatorScreen::drawScreen(QPainter& painter)
 {
 
-    int rectWidth = std::ceil(size().width() / 64.0);
-    int rectHeight = std::ceil(size().height() / 32.0);
+    int rectWidth = size().width() / 64.0;
+    int rectHeight = size().height() / 32.0;
 
     for(int i = 0; i < 32; i++) {
         for(int j = 0; j < 64; j++) {
