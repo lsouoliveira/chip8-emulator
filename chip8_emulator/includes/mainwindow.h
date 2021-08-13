@@ -34,6 +34,7 @@ private:
     void createMenus();
     void createActions();
     void centralizeWindow();
+    void setupConfig();
 
     QMenu *fileMenu;
     QMenu *toolsMenu;
