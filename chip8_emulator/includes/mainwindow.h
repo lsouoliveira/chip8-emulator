@@ -13,6 +13,7 @@
 #include <emulatorscreen.h>
 #include <preferencesdialog.h>
 #include <utils.h>
+#include <config.h>
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +28,7 @@ private slots:
     void exit();
     void load();
     void openPreferences();
+    void savePreferences();
 
 private:
     void createMenus();
@@ -41,6 +43,7 @@ private:
     QAction *enableDebugAction;
     EmulatorScreen *m_EmulatorScreen;
     PreferencesDialog *m_PreferencesDialog;
+    Chip8::Config* config;
 
 public:
     MainWindow(QWidget *parent = nullptr);

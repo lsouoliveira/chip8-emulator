@@ -17,6 +17,7 @@ INCLUDEPATH += ../chip8_emulator/includes
 SOURCES += \
     ../chip8_emulator/includes/emulatorscreen.cpp \
     ../chip8_emulator/src/preferencesdialog.cpp \
+    ../chip8_emulator/src/keypresslineedit.cpp \
     ../chip8_emulator/src/chip8_emulator.cpp \
     ../chip8_emulator/src/cpu.cpp \
     ../chip8_emulator/src/instructions/instructions.cpp \
@@ -34,6 +35,8 @@ HEADERS += \
     ../chip8_emulator/includes/cpu_state.h \
     ../chip8_emulator/includes/emulatorscreen.h \
     ../chip8_emulator/includes/preferencesdialog.h \
+    ../chip8_emulator/models/preferences.h \
+    ../chip8_emulator/includes/keypresslineedit.h \
     ../chip8_emulator/includes/instructions/instructions.h \
     ../chip8_emulator/includes/instructions/instruction_map.h \
     ../chip8_emulator/includes/mainwindow.h \

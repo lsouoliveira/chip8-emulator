@@ -17,6 +17,10 @@ void PreferencesDialog::showEvent(QShowEvent* event)
     QDialog::showEvent(event);
 }
 
+void PreferencesDialog::closeDialog()
+{
+}
+
 void PreferencesDialog::setupUI()
 {
    QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -79,4 +83,17 @@ void PreferencesDialog::setupKeyMappingGroupBox()
     m_KeyMappingGroupBox = new QGroupBox(tr("Key Mapping"));
     QGridLayout* keyMappingGridLayout = new QGridLayout();
     m_KeyMappingGroupBox->setLayout(keyMappingGridLayout);
+
+    std::vector<char> keyNames{'1', '2', '3', 'C', '4', '5', '6', 'D', '7', '8', '9', 'E', 'A', '0', 'B', 'F'};
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+           std::string keyName = std::string(1, keyNames[i * 4 + j]) + " = ";
+           QLabel* label = new QLabel(keyName.c_str());
+           KeypressLineEdit* keyEdit = new KeypressLineEdit();
+           label->setBuddy(keyEdit);
+
+           keyMappingGridLayout->addWidget(label, i, 2 * j);
+           keyMappingGridLayout->addWidget(keyEdit, i, 2 * j + 1);
+        }
+    }
 }

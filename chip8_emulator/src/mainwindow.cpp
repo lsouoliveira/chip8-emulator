@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     createActions();
     createMenus();
+    setupConfig();
 
     setCentralWidget(m_EmulatorScreen);
 }
@@ -62,6 +63,11 @@ void MainWindow::openPreferences()
     m_PreferencesDialog->show();
 }
 
+void MainWindow::savePreferences()
+{
+    connect(m_PreferencesDialog, &PreferencesDialog::saved, this, &MainWindow::savePreferences);
+}
+
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("File"));
@@ -99,4 +105,9 @@ void MainWindow::centralizeWindow()
     QPoint center = desktopRect.center();
 
     move(center.x() - width() * 0.5, center.y() - height() * 0.5);
+}
+
+void MainWindow::setupConfig()
+{
+   config = new Chip8::Config();
 }

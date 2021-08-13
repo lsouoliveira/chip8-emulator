@@ -22,25 +22,30 @@ INCLUDEPATH += includes/
 
 SOURCES += \
     includes/emulatorscreen.cpp \
+    src/preferencesdialog.cpp \
     src/chip8_emulator.cpp \
     src/cpu.cpp \
     src/instructions/instruction_map.cpp \
     src/instructions/instructions.cpp \
+    src/keypresslineedit.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/preferencesdialog.cpp \
     src/utils.cpp \
     src/video.cpp \
 
 HEADERS += \
     includes/chip8_emulator.h \
+    includes/config.h \
     includes/constants.h \
     includes/cpu.h \
     includes/cpu_state.h \
     includes/emulatorscreen.h \
     includes/instructions/instruction_map.h \
     includes/instructions/instructions.h \
+    includes/keypresslineedit.h \
     includes/mainwindow.h \
+    includes/models/preferences.h \
+    includes/preferences.h \
     includes/preferencesdialog.h \
     includes/utils.h \
     includes/video.h
