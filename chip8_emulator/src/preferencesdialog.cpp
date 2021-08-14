@@ -17,8 +17,19 @@ void PreferencesDialog::showEvent(QShowEvent* event)
     QDialog::showEvent(event);
 }
 
-void PreferencesDialog::closeDialog()
+void PreferencesDialog::savePreferences()
 {
+    int cycles = m_CyclesSpinBox->value();
+    int wrapMode = m_WrapModeComboBox->currentIndex();
+    std::vector<std::string> keyMapping;
+    for(auto keyEdit : m_KeyEdits) {
+        keyMapping.push_back(keyEdit->text().toStdString());
+    }
+    Preferences preferences(cycles, wrapMode, keyMapping);
+
+    emit saved(preferences);
+
+    close();
 }
 
 void PreferencesDialog::setupUI()
@@ -42,9 +53,9 @@ void PreferencesDialog::setupGeneralGroupBox()
    m_GeneralGroupBox = new QGroupBox(tr("General"));
 
    QLabel* cyclesLabel = new QLabel(tr("Cycles"));
-   QSpinBox* cyclesSpinBox = new QSpinBox();
-   cyclesLabel->setBuddy(cyclesSpinBox);
-   cyclesSpinBox->setRange(0, 9999);
+   m_CyclesSpinBox = new QSpinBox();
+   cyclesLabel->setBuddy(m_CyclesSpinBox);
+   m_CyclesSpinBox->setRange(0, 9999);
 
    QLabel* wrapModeLabel = new QLabel(tr("Wrap mode"));
    m_WrapModeComboBox = new QComboBox();
@@ -58,7 +69,7 @@ void PreferencesDialog::setupGeneralGroupBox()
    generalGridLayout->setColumnStretch(0, 0);
    generalGridLayout->setColumnStretch(1, 1);
    generalGridLayout->addWidget(cyclesLabel, 0, 0);
-   generalGridLayout->addWidget(cyclesSpinBox, 0, 1);
+   generalGridLayout->addWidget(m_CyclesSpinBox, 0, 1);
    generalGridLayout->addWidget(wrapModeLabel, 1, 0);
    generalGridLayout->addWidget(m_WrapModeComboBox, 1, 1);
    m_GeneralGroupBox->setLayout(generalGridLayout);
@@ -70,6 +81,9 @@ void PreferencesDialog::setupBtnGroupBox()
 
    QPushButton* okBtn = new QPushButton("OK");
    QPushButton* cancelBtn = new QPushButton("Cancel");
+
+   connect(cancelBtn, &QPushButton::clicked, this, &PreferencesDialog::close);
+   connect(okBtn, &QPushButton::clicked, this, &PreferencesDialog::savePreferences);
 
    QHBoxLayout* btnBoxLayout = new QHBoxLayout();
    btnBoxLayout->addStretch();
@@ -90,10 +104,31 @@ void PreferencesDialog::setupKeyMappingGroupBox()
            std::string keyName = std::string(1, keyNames[i * 4 + j]) + " = ";
            QLabel* label = new QLabel(keyName.c_str());
            KeypressLineEdit* keyEdit = new KeypressLineEdit();
+           keyEdit->setReadOnly(true);
            label->setBuddy(keyEdit);
 
            keyMappingGridLayout->addWidget(label, i, 2 * j);
            keyMappingGridLayout->addWidget(keyEdit, i, 2 * j + 1);
+
+           m_KeyEdits.push_back(keyEdit);
         }
+    }
+}
+
+void PreferencesDialog::setCycles(int cycles)
+{
+    m_CyclesSpinBox->setValue(cycles);
+}
+
+void PreferencesDialog::setWrapMode(int wrapModeIndex)
+{
+    m_WrapModeComboBox->setCurrentIndex(wrapModeIndex);
+}
+
+void PreferencesDialog::setKeyMapping(std::vector<std::string> keyMapping)
+{
+    for(int i = 0; i < 16; i++) {
+        KeypressLineEdit* keyEdit = m_KeyEdits[i];
+        keyEdit->setText(keyMapping[i].c_str());
     }
 }
