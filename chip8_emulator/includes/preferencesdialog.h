@@ -27,7 +27,7 @@ class PreferencesDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit PreferencesDialog(QWidget *parent = nullptr);
+    explicit PreferencesDialog(QWidget *parent = nullptr, std::vector<char> keyLayout = std::vector<char>());
 protected:
     void showEvent(QShowEvent* event) override;
 private slots:
@@ -48,10 +48,13 @@ private:
     QComboBox* m_WrapModeComboBox;
     QSpinBox* m_CyclesSpinBox;
     std::vector<KeypressLineEdit*> m_KeyEdits;
+    std::vector<char> m_KeyLayout;
 public:
     void setCycles(int cycles);
     void setWrapMode(int wrapModeIndex);
-    void setKeyMapping(std::vector<std::string> keyMapping);
+    void setKeyMapping(std::vector<char> keyMapping);
+
+    void key_layout(std::vector<char> key_layout) { m_KeyLayout = key_layout; };
 };
 
 #endif // PREFERENCES_DIALOG_H

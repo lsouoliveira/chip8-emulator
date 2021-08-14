@@ -1,12 +1,11 @@
 #include "emulatorscreen.h"
 
-EmulatorScreen::EmulatorScreen(QWidget *parent) : QFrame(parent)
+EmulatorScreen::EmulatorScreen(QWidget *parent, Chip8::Config* config) : QFrame(parent), m_Config(config)
 {
     setFrameStyle(QFrame::Panel | QFrame::Sunken);
     setFocusPolicy(Qt::StrongFocus);
 
     setupPalette();
-    setupKeyMapping();
 
     m_Timer = new QTimer(this);
     connect(m_Timer, &QTimer::timeout, [this]{ updateEmulator(); });
@@ -145,28 +144,14 @@ void EmulatorScreen::execInstruction()
     }
 }
 
-void EmulatorScreen::setupKeyMapping()
+void EmulatorScreen::updateKeyMapping()
 {
+    m_KeyCallbackMapping = std::unordered_map<unsigned char, std::function<void(unsigned char key, bool isPressed)>>();
+    m_KeyMapping = std::unordered_map<unsigned char, unsigned char>();
 
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_1, 1));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_2, 2));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_3, 3));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_4, 0xC));
-
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_Q, 4));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_W, 5));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_E, 6));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_R, 0xD));
-
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_A, 7));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_S, 8));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_D, 9));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_F, 0xE));
-
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_Z, 0xA));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_X, 0));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_C, 0xB));
-    m_KeyMapping.insert(std::make_pair<>(Qt::Key_V, 0xF));
+    for(int i = 0; i < 16; i++) {
+        m_KeyMapping.insert(std::make_pair<>(m_Config->key_mapping()[i], i));
+    }
 
     m_KeyCallbackMapping.insert(std::make_pair<>(Qt::Key_N, [this](unsigned char key, bool isPressed) { execInstruction(); }));
 

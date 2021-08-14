@@ -24,15 +24,14 @@ using std::chrono::system_clock;
 #include <QBoxLayout>
 #include <QKeyEvent>
 
-// #include <spdlog/spdlog.h>
-
 #include <chip8_emulator.h>
+#include <config.h>
 
 class EmulatorScreen : public QFrame
 {
     Q_OBJECT
 public:
-    explicit EmulatorScreen(QWidget *parent = nullptr);
+    explicit EmulatorScreen(QWidget *parent = nullptr, Chip8::Config* config = nullptr);
 
     void load(std::vector<unsigned char> data);
 
@@ -54,8 +53,9 @@ private:
     void updateScreen(double deltaTime);
     void drawScreen(QPainter& painter);
     void execInstruction();
-    void setupKeyMapping();
+    void updateKeyMapping();
 
+    Chip8::Config* m_Config;
     Chip8::Chip8Emulator m_Emulator;
     QTimer *m_Timer;
     QLabel *m_CpuStateLabel;

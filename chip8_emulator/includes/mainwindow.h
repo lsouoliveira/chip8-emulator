@@ -47,10 +47,12 @@ private:
     EmulatorScreen *m_EmulatorScreen;
     PreferencesDialog *m_PreferencesDialog;
     Chip8::Config* config;
-    static std::vector<std::string> DEFAULT_KEY_MAPPING;
+    static std::vector<char> DEFAULT_KEY_MAPPING;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    static std::vector<char> KEYBOARD_LAYOUT;
 };
 #endif // MAINWINDOW_H

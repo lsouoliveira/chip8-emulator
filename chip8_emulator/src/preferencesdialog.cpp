@@ -2,7 +2,7 @@
 
 const char* PreferencesDialog::WRAP_MODES[] = {"NO_WRAP", "WRAP", "WRAP_PART", "WRAP_CIRCULAR"};
 
-PreferencesDialog::PreferencesDialog(QWidget* parent) : QDialog(parent)
+PreferencesDialog::PreferencesDialog(QWidget* parent, std::vector<char> keyLayout) : QDialog(parent), m_KeyLayout(keyLayout)
 {
     setMinimumWidth(480);
     setWindowTitle(tr("Preferences"));
@@ -21,9 +21,9 @@ void PreferencesDialog::savePreferences()
 {
     int cycles = m_CyclesSpinBox->value();
     int wrapMode = m_WrapModeComboBox->currentIndex();
-    std::vector<std::string> keyMapping;
-    for(auto keyEdit : m_KeyEdits) {
-        keyMapping.push_back(keyEdit->text().toStdString());
+    std::vector<char> keyMapping;
+    for(KeypressLineEdit* keyEdit : m_KeyEdits) {
+        keyMapping.push_back(keyEdit->key_code());
     }
     Preferences preferences(cycles, wrapMode, keyMapping);
 
@@ -98,10 +98,9 @@ void PreferencesDialog::setupKeyMappingGroupBox()
     QGridLayout* keyMappingGridLayout = new QGridLayout();
     m_KeyMappingGroupBox->setLayout(keyMappingGridLayout);
 
-    std::vector<char> keyNames{'1', '2', '3', 'C', '4', '5', '6', 'D', '7', '8', '9', 'E', 'A', '0', 'B', 'F'};
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
-           std::string keyName = std::string(1, keyNames[i * 4 + j]) + " = ";
+           std::string keyName = std::string(1, m_KeyLayout[i * 4 + j]) + " = ";
            QLabel* label = new QLabel(keyName.c_str());
            KeypressLineEdit* keyEdit = new KeypressLineEdit();
            keyEdit->setReadOnly(true);
@@ -125,10 +124,11 @@ void PreferencesDialog::setWrapMode(int wrapModeIndex)
     m_WrapModeComboBox->setCurrentIndex(wrapModeIndex);
 }
 
-void PreferencesDialog::setKeyMapping(std::vector<std::string> keyMapping)
+void PreferencesDialog::setKeyMapping(std::vector<char> keyMapping)
 {
     for(int i = 0; i < 16; i++) {
         KeypressLineEdit* keyEdit = m_KeyEdits[i];
-        keyEdit->setText(keyMapping[i].c_str());
+        keyEdit->key_code(keyMapping[i]);
+        keyEdit->setText(QKeySequence(keyMapping[i]).toString());
     }
 }

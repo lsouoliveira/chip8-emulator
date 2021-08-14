@@ -1,23 +1,25 @@
 #include "mainwindow.h"
 
-std::vector<std::string> MainWindow::DEFAULT_KEY_MAPPING {
-    QKeySequence(Qt::Key_1).toString().toStdString(),
-    QKeySequence(Qt::Key_2).toString().toStdString(),
-    QKeySequence(Qt::Key_3).toString().toStdString(),
-    QKeySequence(Qt::Key_4).toString().toStdString(),
-    QKeySequence(Qt::Key_Q).toString().toStdString(),
-    QKeySequence(Qt::Key_W).toString().toStdString(),
-    QKeySequence(Qt::Key_E).toString().toStdString(),
-    QKeySequence(Qt::Key_R).toString().toStdString(),
-    QKeySequence(Qt::Key_A).toString().toStdString(),
-    QKeySequence(Qt::Key_S).toString().toStdString(),
-    QKeySequence(Qt::Key_D).toString().toStdString(),
-    QKeySequence(Qt::Key_F).toString().toStdString(),
-    QKeySequence(Qt::Key_Z).toString().toStdString(),
-    QKeySequence(Qt::Key_X).toString().toStdString(),
-    QKeySequence(Qt::Key_C).toString().toStdString(),
-    QKeySequence(Qt::Key_V).toString().toStdString()
+std::vector<char> MainWindow::DEFAULT_KEY_MAPPING {
+    Qt::Key_1,
+    Qt::Key_2,
+    Qt::Key_3,
+    Qt::Key_4,
+    Qt::Key_Q,
+    Qt::Key_W,
+    Qt::Key_E,
+    Qt::Key_R,
+    Qt::Key_A,
+    Qt::Key_S,
+    Qt::Key_D,
+    Qt::Key_F,
+    Qt::Key_Z,
+    Qt::Key_X,
+    Qt::Key_C,
+    Qt::Key_V
 };
+
+std::vector<char> MainWindow::KEYBOARD_LAYOUT = {'1', '2', '3', 'C', '4', '5', '6', 'D', '7', '8', '9', 'E', 'A', '0', 'B', 'F'};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupConfig();
 
     m_EmulatorScreen = new EmulatorScreen(this);
-    m_PreferencesDialog = new PreferencesDialog(this);
+    m_PreferencesDialog = new PreferencesDialog(this, KEYBOARD_LAYOUT);
     connect(m_PreferencesDialog, &PreferencesDialog::saved, this, &MainWindow::savePreferences);
 
     createActions();
@@ -153,13 +155,13 @@ void MainWindow::setupConfig()
    }
 
 
-   std::vector<std::string> keyMapping;
+   std::vector<char> keyMapping;
    for(int i = 0; i < 16; i++) {
        std::string settingsKey = "config/key_" + std::to_string(i);
        if(!settings.contains(settingsKey.c_str())) {
            keyMapping.push_back(DEFAULT_KEY_MAPPING[i]);
        } else {
-           keyMapping.push_back(settings.value(settingsKey.c_str()).toString().toStdString());
+           keyMapping.push_back(settings.value(settingsKey.c_str()).toInt());
        }
    }
    config->key_mapping(keyMapping);
@@ -174,6 +176,6 @@ void MainWindow::saveSettings()
 
    for(int i = 0; i < 16; i++) {
        std::string settingsKey = "config/key_" + std::to_string(i);
-       settings.setValue(settingsKey.c_str(), config->key_mapping()[i].c_str());
+       settings.setValue(settingsKey.c_str(), config->key_mapping()[i]);
    }
 }
