@@ -34,6 +34,8 @@ public:
     explicit EmulatorScreen(QWidget *parent = nullptr, Chip8::Config* config = nullptr);
 
     void load(std::vector<unsigned char> data);
+    void setKeyboardLayout(std::vector<char> layout);
+    void updateKeyMapping();
 
 public slots:
     void toggleDebugging();
@@ -53,7 +55,6 @@ private:
     void updateScreen(double deltaTime);
     void drawScreen(QPainter& painter);
     void execInstruction();
-    void updateKeyMapping();
 
     Chip8::Config* m_Config;
     Chip8::Chip8Emulator m_Emulator;
@@ -64,6 +65,7 @@ private:
     bool m_IsDebbuging;
     std::unordered_map<unsigned char, std::function<void(unsigned char key, bool isPressed)>> m_KeyCallbackMapping;
     std::unordered_map<unsigned char, unsigned char> m_KeyMapping;
+    std::vector<char> m_KeyboardLayout;
 };
 
 #endif // EMULATORSCREEN_H

@@ -13,6 +13,7 @@
 #include <constants.h>
 #include <video.h>
 #include <cpu_state.h>
+#include <config.h>
 #include <instructions/instruction_map.h>
 #include <instructions/instructions.h>
 
@@ -21,13 +22,14 @@ namespace Chip8 {
 class CPU {
 private:
 	CPUState state_;
+    Config* config_;
     bool is_paused_;
     bool is_debug_enabled_;
 	
 	void FetchOpcode();
 	void EmulateInstruction();
 public:
-    CPU(Video* video);
+    CPU(Video* video, Config* config);
 	~CPU();
     void EmulateCycles(int numCycles);
 	void Update(double deltaTime);

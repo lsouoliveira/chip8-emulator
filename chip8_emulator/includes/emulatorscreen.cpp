@@ -1,6 +1,6 @@
 #include "emulatorscreen.h"
 
-EmulatorScreen::EmulatorScreen(QWidget *parent, Chip8::Config* config) : QFrame(parent), m_Config(config)
+EmulatorScreen::EmulatorScreen(QWidget *parent, Chip8::Config* config) : QFrame(parent), m_Config(config), m_Emulator(config)
 {
     setFrameStyle(QFrame::Panel | QFrame::Sunken);
     setFocusPolicy(Qt::StrongFocus);
@@ -150,7 +150,10 @@ void EmulatorScreen::updateKeyMapping()
     m_KeyMapping = std::unordered_map<unsigned char, unsigned char>();
 
     for(int i = 0; i < 16; i++) {
-        m_KeyMapping.insert(std::make_pair<>(m_Config->key_mapping()[i], i));
+        char key = m_KeyboardLayout[i];
+        char keyValue = (key >= 'A' && key <= 'F' ? 0x10 + key - 'A' : key - '0');
+
+        m_KeyMapping.insert(std::make_pair<>(m_Config->key_mapping()[i], keyValue));
     }
 
     m_KeyCallbackMapping.insert(std::make_pair<>(Qt::Key_N, [this](unsigned char key, bool isPressed) { execInstruction(); }));
@@ -158,4 +161,9 @@ void EmulatorScreen::updateKeyMapping()
     for(const auto &pair : m_KeyMapping) {
         m_KeyCallbackMapping.insert(std::make_pair<>(pair.first, [this](unsigned char key, bool isPressed) { m_Emulator.SetKeyState(key, isPressed); }));
     }
+}
+
+void EmulatorScreen::setKeyboardLayout(std::vector<char> layout)
+{
+    m_KeyboardLayout = layout;
 }

@@ -5,16 +5,18 @@
 #include <vector>
 #include <cpu.h>
 #include <video.h>
+#include <config.h>
 #include <instructions/instruction_map.h>
 
 namespace Chip8 {
 
 class Chip8Emulator {
 private:
-	Video* video_;
+    Config* config_;
+    Video* video_;
     CPU* cpu_;
 public:
-    Chip8Emulator();
+    Chip8Emulator(Config* config);
     ~Chip8Emulator();
     void Init();
     void Update(double deltaTime);

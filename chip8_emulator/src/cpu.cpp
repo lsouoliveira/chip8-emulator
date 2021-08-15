@@ -2,8 +2,8 @@
 
 namespace Chip8 {
 
-CPU::CPU(Video* video)
-    : is_paused_(true)
+CPU::CPU(Video* video, Config* config)
+    : config_(config), is_paused_(true)
 {
     state_.video = video;
 }
@@ -70,6 +70,7 @@ void CPU::Reset()
 
 void CPU::Update(double deltaTime)
 {
+    int cycles = (config_ != nullptr ? config_->cycles() / UPDATE_FREQUENCY : CYCLES_PER_UPDATE);
 	state_.updateCounter -= deltaTime;	
 
 	if(state_.updateCounter <= 0.0) {
@@ -77,7 +78,7 @@ void CPU::Update(double deltaTime)
 
         if(!is_paused_) {
             if(!is_debug_enabled_) {
-                EmulateCycles(CYCLES_PER_UPDATE);
+                EmulateCycles(cycles);
             }
             UpdateTimers();
         }

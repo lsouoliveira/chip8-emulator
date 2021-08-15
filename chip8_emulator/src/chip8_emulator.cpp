@@ -2,9 +2,10 @@
 
 namespace Chip8 {
 
-Chip8Emulator::Chip8Emulator()
-	: video_(new Video()),
-	  cpu_(new CPU(video_))
+Chip8Emulator::Chip8Emulator(Config* config)
+    : config_(config),
+      video_(new Video()),
+      cpu_(new CPU(video_, config))
 {
 }
 

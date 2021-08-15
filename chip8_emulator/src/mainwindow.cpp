@@ -30,7 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
     centralizeWindow();
     setupConfig();
 
-    m_EmulatorScreen = new EmulatorScreen(this);
+    m_EmulatorScreen = new EmulatorScreen(this, config);
+    m_EmulatorScreen->setKeyboardLayout(KEYBOARD_LAYOUT);
+    m_EmulatorScreen->updateKeyMapping();
     m_PreferencesDialog = new PreferencesDialog(this, KEYBOARD_LAYOUT);
     connect(m_PreferencesDialog, &PreferencesDialog::saved, this, &MainWindow::savePreferences);
 
@@ -93,6 +95,7 @@ void MainWindow::savePreferences(Preferences preferences)
     config->cycles(preferences.cycles());
     config->wrap_mode((Chip8::WrapMode) preferences.wrap_mode());
     config->key_mapping(preferences.key_mapping());
+    m_EmulatorScreen->updateKeyMapping();
 
     saveSettings();
 }
@@ -143,7 +146,7 @@ void MainWindow::setupConfig()
    config = new Chip8::Config();
 
    if(!settings.contains("config/cycles")) {
-       config->cycles(500);
+       config->cycles(200);
    } else {
        config->cycles(settings.value("config/cycles").toInt());
    }
@@ -151,9 +154,8 @@ void MainWindow::setupConfig()
    if(!settings.contains("config/wrap_mode")) {
        config->wrap_mode(Chip8::WrapMode::FULL);
    } else {
-       config->wrap_mode((Chip8::WrapMode) settings.value("config/wrap").toInt());
+       config->wrap_mode((Chip8::WrapMode) settings.value("config/wrap_mode").toInt());
    }
-
 
    std::vector<char> keyMapping;
    for(int i = 0; i < 16; i++) {
